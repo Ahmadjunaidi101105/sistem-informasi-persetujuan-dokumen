@@ -216,13 +216,13 @@
 - [ ] No hardcoded values (use constants/enums/config)
 
 ### Phase 8: Testing
-- [ ] **Unit Tests**
-  - [ ] ProjectStatusTransitionTest
-  - [ ] ProjectCodeGenerationTest
-  - [ ] ProjectPolicyTest
-- [ ] **Feature Tests**
-  - [ ] AuthenticationTest (register, login, logout)
-  - [ ] ProjectCRUDTest
+- [x] **Unit Tests**
+  - [x] ProjectStatusTransitionTest
+  - [x] ProjectCodeGenerationTest
+  - [x] ProjectPolicyTest
+- [x] **Feature Tests**
+  - [x] AuthenticationTest (register, login, logout)
+  - [x] ProjectCRUDTest
   - [ ] ProjectWorkflowTest (submit, review, approve, revise, reject)
   - [ ] DocumentUploadTest
   - [ ] DashboardTest
