@@ -92,6 +92,9 @@ npm run dev                # http://localhost:5173
 
 ## Test Credentials
 
+> **⚠️ PERINGATAN KEAMANAN (SECURITY WARNING)**
+> Akun dan kata sandi di bawah ini hanya boleh digunakan untuk lingkungan pengembangan (Development) dan Demo (Staging). **JANGAN** menggunakan *seeder* atau *default password* ini di lingkungan Produksi (Production).
+
 | Role | Email | Password |
 |------|-------|----------|
 | Pemohon | pemohon@sipdok.test | password |

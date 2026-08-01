@@ -1,5 +1,13 @@
 version: '3.8'
 
+# ==========================================
+# ⚠️ SECURITY WARNING FOR PRODUCTION ⚠️
+# The passwords and credentials below (e.g., sipdok_secret) 
+# are hardcoded for LOCAL DEVELOPMENT convenience.
+# Do NOT use this file as-is in a Production environment.
+# Instead, use Docker Secrets or a secure .env injection.
+# ==========================================
+
 services:
   # Nginx Web Server
   nginx:
