@@ -185,9 +185,9 @@
   - [x] ProjectCreatePage.vue (form + file upload)
   - [x] ProjectEditPage.vue
   - [x] ProjectDetailPage.vue (tabs: info, docs, history)
-- [ ] **Penilai Pages**
-  - [ ] DashboardPage.vue (stats + 3 charts + recent reviews)
-  - [ ] SubmissionListPage.vue (all submitted projects)
+- [x] **Penilai Pages**
+  - [x] DashboardPage.vue (stats + 3 charts + recent reviews)
+  - [x] SubmissionListPage.vue (all submitted projects)
   - [ ] ReviewPage.vue (review form with approve/revise/reject)
   - [ ] ReviewHistoryPage.vue
 - [ ] **Shared Pages**
