@@ -104,9 +104,9 @@
   - [ ] ReviewService
   - [ ] DashboardService
   - [ ] ExportService
-- [ ] **Policies**
-  - [ ] ProjectPolicy
-  - [ ] ProjectDocumentPolicy
+- [x] **Policies**
+  - [x] ProjectPolicy
+  - [x] ProjectDocumentPolicy
 - [ ] **Middleware**
   - [ ] EnsureRole middleware (or use Spatie middleware)
   - [ ] Rate limiting config
