@@ -38,9 +38,9 @@ services:
       - DB_CONNECTION=pgsql
       - DB_HOST=postgres
       - DB_PORT=5432
-      - DB_DATABASE=sipdok
-      - DB_USERNAME=sipdok
-      - DB_PASSWORD=sipdok_secret
+      - DB_DATABASE=${DB_DATABASE:-sipdok}
+      - DB_USERNAME=${DB_USERNAME:-sipdok}
+      - DB_PASSWORD=${DB_PASSWORD:-secret}
       - REDIS_HOST=redis
       - CACHE_STORE=redis
       - QUEUE_CONNECTION=redis
@@ -63,9 +63,9 @@ services:
       - DB_CONNECTION=pgsql
       - DB_HOST=postgres
       - DB_PORT=5432
-      - DB_DATABASE=sipdok
-      - DB_USERNAME=sipdok
-      - DB_PASSWORD=sipdok_secret
+      - DB_DATABASE=${DB_DATABASE:-sipdok}
+      - DB_USERNAME=${DB_USERNAME:-sipdok}
+      - DB_PASSWORD=${DB_PASSWORD:-secret}
       - REDIS_HOST=redis
       - QUEUE_CONNECTION=redis
     networks:
@@ -79,9 +79,9 @@ services:
     ports:
       - "5434:5432"
     environment:
-      POSTGRES_DB: sipdok
-      POSTGRES_USER: sipdok
-      POSTGRES_PASSWORD: sipdok_secret
+      POSTGRES_DB: ${DB_DATABASE:-sipdok}
+      POSTGRES_USER: ${DB_USERNAME:-sipdok}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
     volumes:
       - sipdok_postgres_data:/var/lib/postgresql/data
     networks:

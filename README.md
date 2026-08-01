@@ -90,25 +90,6 @@ npm install
 npm run dev                # http://localhost:5173
 ```
 
-## Test Credentials
-
-> **⚠️ PERINGATAN KEAMANAN (SECURITY WARNING)**
-> Akun dan kata sandi di bawah ini hanya boleh digunakan untuk lingkungan pengembangan (Development) dan Demo (Staging). **JANGAN** menggunakan *seeder* atau *default password* ini di lingkungan Produksi (Production).
-
-| Role | Email | Password |
-|------|-------|----------|
-| Pemohon | pemohon@sipdok.test | password |
-| Penilai | penilai@sipdok.test | password |
-
-## Seeded Data
-
-| Data | Jumlah |
-|------|--------|
-| User Pemohon | 1.000 |
-| User Penilai | 1.000 |
-| Project Permohonan | 10.000 |
-| Kategori Dokumen | 10 |
-
 ## Running Tests
 
 ```bash
