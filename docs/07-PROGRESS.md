@@ -60,12 +60,12 @@
   - [x] UpdateProjectRequest
   - [x] UploadDocumentRequest
   - [x] ReviewActionRequest
-- [ ] **API Resources**
-  - [ ] UserResource
-  - [ ] ProjectResource / ProjectCollection
-  - [ ] ProjectDocumentResource
-  - [ ] ProjectReviewResource
-  - [ ] NotificationResource
+- [x] **API Resources**
+  - [x] UserResource
+  - [x] ProjectResource / ProjectCollection
+  - [x] ProjectDocumentResource
+  - [x] ProjectReviewResource
+  - [x] NotificationResource
   - [ ] DashboardResource
 - [ ] **Project Endpoints**
   - [ ] GET /projects (with filtering, sorting, pagination)
