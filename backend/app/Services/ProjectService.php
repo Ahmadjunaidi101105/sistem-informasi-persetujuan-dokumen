@@ -52,6 +52,7 @@ class ProjectService
             $project->save();
 
             $project->reviews()->create([
+                'reviewer_id' => $project->user_id,
                 'status_from' => $oldStatus,
                 'status_to' => ProjectStatus::Submitted,
                 'notes' => 'Project submitted for review',

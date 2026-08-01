@@ -223,7 +223,7 @@
 - [x] **Feature Tests**
   - [x] AuthenticationTest (register, login, logout)
   - [x] ProjectCRUDTest
-  - [ ] ProjectWorkflowTest (submit, review, approve, revise, reject)
+  - [x] ProjectWorkflowTest (submit, review, approve, revise, reject)
   - [ ] DocumentUploadTest
   - [ ] DashboardTest
   - [ ] NotificationTest
