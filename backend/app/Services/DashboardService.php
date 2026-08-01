@@ -47,10 +47,10 @@ class DashboardService
 
             $stats = [
                 'total_projects' => $totalProjects,
-                'pending_review' => $statusDistribution->get(ProjectStatus::SUBMITTED->value, 0) + $statusDistribution->get(ProjectStatus::IN_REVIEW->value, 0),
-                'approved' => $statusDistribution->get(ProjectStatus::APPROVED->value, 0),
-                'needs_revision' => $statusDistribution->get(ProjectStatus::REVISION->value, 0),
-                'rejected' => $statusDistribution->get(ProjectStatus::REJECTED->value, 0),
+                'pending_review' => $statusDistribution->get(ProjectStatus::Submitted->value, 0) + $statusDistribution->get(ProjectStatus::InReview->value, 0),
+                'approved' => $statusDistribution->get(ProjectStatus::Approved->value, 0),
+                'needs_revision' => $statusDistribution->get(ProjectStatus::Revised->value, 0),
+                'rejected' => $statusDistribution->get(ProjectStatus::Rejected->value, 0),
             ];
 
             return [
@@ -114,10 +114,10 @@ class DashboardService
 
             $stats = [
                 'total_submissions' => $totalSubmissions,
-                'pending_review' => $statusDistribution->get(ProjectStatus::SUBMITTED->value, 0),
-                'in_review' => $statusDistribution->get(ProjectStatus::IN_REVIEW->value, 0),
-                'approved' => $statusDistribution->get(ProjectStatus::APPROVED->value, 0),
-                'rejected' => $statusDistribution->get(ProjectStatus::REJECTED->value, 0),
+                'pending_review' => $statusDistribution->get(ProjectStatus::Submitted->value, 0),
+                'in_review' => $statusDistribution->get(ProjectStatus::InReview->value, 0),
+                'approved' => $statusDistribution->get(ProjectStatus::Approved->value, 0),
+                'rejected' => $statusDistribution->get(ProjectStatus::Rejected->value, 0),
             ];
 
             return [
