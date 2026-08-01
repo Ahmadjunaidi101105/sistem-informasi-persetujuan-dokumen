@@ -140,13 +140,18 @@
   - [x] ui.js
   - [x] notifications.js
 - [x] Setup Utils (formatters, constants)
-- [ ] Buat Layout Components:.vue
-  - [ ] StatusBadge.vue
-  - [ ] FileUpload.vue (drag & drop)
-  - [ ] ConfirmDialog.vue
-  - [ ] LoadingSpinner.vue
-  - [ ] EmptyState.vue
-  - [ ] SearchInput.vue
+- [x] Buat Layout Components:
+  - [ ] AuthLayout.vue
+  - [ ] DashboardLayout.vue
+- [x] **Common Components**
+  - [x] LoadingSpinner.vue
+  - [x] StatusBadge.vue
+  - [x] ConfirmDialog.vue
+  - [x] EmptyState.vue
+  - [x] Toast.vue
+  - [x] Pagination.vue
+  - [x] SearchInput.vue
+  - [ ] FileUpload.vue
 - [ ] **Stores (Pinia)**
   - [ ] auth store
   - [ ] projects store
