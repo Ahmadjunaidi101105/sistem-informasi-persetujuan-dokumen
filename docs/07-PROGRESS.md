@@ -32,8 +32,8 @@
 - [ ] Create Model: Project (with relationships, scopes, status enum)
 - [ ] Create Model: ProjectDocument
 - [ ] Create Model: ProjectReview
-- [ ] Create Enum: ProjectStatus
-- [ ] Create Enum: ProjectPriority
+- [x] Create Enum: ProjectStatus
+- [x] Create Enum: ProjectPriority
 - [ ] Create Factory: UserFactory
 - [ ] Create Factory: ProjectFactory
 - [ ] Create Factory: ProjectDocumentFactory
