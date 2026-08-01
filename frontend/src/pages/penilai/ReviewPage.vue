@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { projectsApi } from '@/api/projects'
 import { reviewsApi } from '@/api/reviews'
+import { documentsApi } from '@/api/documents'
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import StatusBadge from '@/components/common/StatusBadge.vue'
 import ProjectTimeline from '@/components/project/ProjectTimeline.vue'
@@ -49,6 +50,22 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+const handleDownloadDocument = async (doc) => {
+  try {
+    const blob = await documentsApi.download(doc.id)
+    const url = window.URL.createObjectURL(new Blob([blob]))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', doc.original_name)
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    window.URL.revokeObjectURL(url)
+  } catch (e) {
+    uiStore.showToast('Gagal mengunduh dokumen', 'error')
+  }
+}
 
 const triggerAction = (action) => {
   if (action !== 'approve' && form.value.notes.length < 10) {
@@ -183,9 +200,9 @@ const handleConfirm = async () => {
                   </div>
                 </div>
                 <div class="ml-4 flex-shrink-0">
-                  <a :href="doc.download_url" target="_blank" class="font-medium text-blue-600 hover:text-blue-500 bg-blue-50 px-3 py-1.5 rounded-md">
+                  <button @click="handleDownloadDocument(doc)" type="button" class="font-medium text-blue-600 hover:text-blue-500 bg-blue-50 px-3 py-1.5 rounded-md">
                     Unduh
-                  </a>
+                  </button>
                 </div>
               </li>
               <li v-if="project.documents?.length === 0" class="py-6 text-center text-gray-500 text-sm">

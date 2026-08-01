@@ -91,7 +91,7 @@ const donutOptions = {
       <!-- Recent Reviews -->
       <div class="bg-white shadow rounded-lg">
         <div class="px-4 py-5 sm:px-6 flex justify-between items-center border-b border-gray-200">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">Review Terakhir</h3>
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Sedang Direview</h3>
           <router-link to="/penilai/submissions" class="text-sm font-medium text-blue-600 hover:text-blue-500">
             Lihat Semua Pengajuan &rarr;
           </router-link>
@@ -102,26 +102,26 @@ const donutOptions = {
               <tr>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pemohon</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status Review</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="review in dashboardData.recent_reviews" :key="review.id" class="hover:bg-gray-50 cursor-pointer" @click="router.push(`/penilai/submissions/${review.project_id}`)">
+              <tr v-for="review in dashboardData.recent_reviews" :key="review.id" class="hover:bg-gray-50 cursor-pointer" @click="router.push(`/penilai/submissions/${review.id}/review`)">
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm font-medium text-gray-900">{{ review.project?.project_code }}</div>
-                  <div class="text-xs text-gray-500 truncate max-w-[200px]">{{ review.project?.title }}</div>
+                  <div class="text-sm font-medium text-gray-900">{{ review.project_code }}</div>
+                  <div class="text-xs text-gray-500 truncate max-w-[200px]">{{ review.title }}</div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ review.project?.user?.name }}
+                  {{ review.user?.name }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <StatusBadge :status="review.status_to" />
+                  <StatusBadge :status="review.status" />
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatDate(review.created_at) }}</td>
               </tr>
               <tr v-if="dashboardData.recent_reviews.length === 0">
-                <td colspan="4" class="px-6 py-10 text-center text-gray-500">Belum ada history review</td>
+                <td colspan="4" class="px-6 py-10 text-center text-gray-500">Tidak ada project yang sedang Anda review</td>
               </tr>
             </tbody>
           </table>

@@ -4,7 +4,7 @@ import VueApexCharts from 'vue3-apexcharts'
 
 const props = defineProps({
   data: {
-    type: Array, // Array of { category: string, count: number }
+    type: Array, // Array of { name: string, count: number }
     default: () => []
   }
 })
@@ -15,7 +15,7 @@ const chartOptions = computed(() => {
     plotOptions: { bar: { horizontal: true, borderRadius: 4, barHeight: '50%' } },
     colors: ['#8b5cf6'], // purple
     dataLabels: { enabled: true, style: { colors: ['#fff'] } },
-    xaxis: { categories: props.data.map(item => item.category) },
+    xaxis: { categories: props.data.map(item => item.name) },
     grid: { xaxis: { lines: { show: false } }, yaxis: { lines: { show: false } } }
   }
 })

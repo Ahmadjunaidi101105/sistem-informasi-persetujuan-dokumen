@@ -53,9 +53,9 @@ const saveProject = async (submitImmediately = false) => {
     const res = await projectsApi.create(form.value)
     const project = res.data
 
-    if (files.value.length > 0) {
+    for (const file of files.value) {
       const formData = new FormData()
-      files.value.forEach(file => formData.append('documents[]', file))
+      formData.append('document', file)
       await documentsApi.upload(project.id, formData)
     }
 

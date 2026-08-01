@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { projectsApi } from '@/api/projects'
 import { categoriesApi } from '@/api/categories'
 import { reviewsApi } from '@/api/reviews'
+import { exportsApi } from '@/api/exports'
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import DataTable from '@/components/common/DataTable.vue'
 import StatusBadge from '@/components/common/StatusBadge.vue'
@@ -101,8 +102,8 @@ const handleTakeReview = async () => {
 
 const handleExportExcel = async () => {
   try {
-    const res = await projectsApi.exportExcel(filters.value, { responseType: 'blob' })
-    const url = window.URL.createObjectURL(new Blob([res.data]))
+    const blob = await exportsApi.exportExcel(filters.value)
+    const url = window.URL.createObjectURL(new Blob([blob]))
     const link = document.createElement('a')
     link.href = url
     link.setAttribute('download', 'daftar_pengajuan.xlsx')

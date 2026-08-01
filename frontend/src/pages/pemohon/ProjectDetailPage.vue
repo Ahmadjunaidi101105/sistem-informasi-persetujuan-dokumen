@@ -2,6 +2,8 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { projectsApi } from '@/api/projects'
+import { exportsApi } from '@/api/exports'
+import { documentsApi } from '@/api/documents'
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import StatusBadge from '@/components/common/StatusBadge.vue'
 import ProjectTimeline from '@/components/project/ProjectTimeline.vue'
@@ -69,10 +71,26 @@ const handleSubmit = async () => {
   }
 }
 
+const handleDownloadDocument = async (doc) => {
+  try {
+    const blob = await documentsApi.download(doc.id)
+    const url = window.URL.createObjectURL(new Blob([blob]))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', doc.original_name)
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    window.URL.revokeObjectURL(url)
+  } catch (e) {
+    uiStore.showToast('Gagal mengunduh dokumen', 'error')
+  }
+}
+
 const handleExportPdf = async () => {
   try {
-    const res = await projectsApi.exportPdf(project.value.id, { responseType: 'blob' })
-    const url = window.URL.createObjectURL(new Blob([res.data]))
+    const blob = await exportsApi.exportPdf(project.value.id)
+    const url = window.URL.createObjectURL(new Blob([blob]))
     const link = document.createElement('a')
     link.href = url
     link.setAttribute('download', `project-${project.value.project_code}.pdf`)
@@ -220,9 +238,9 @@ const tabs = [
               </div>
             </div>
             <div class="ml-4 flex-shrink-0">
-              <a :href="doc.download_url" target="_blank" class="font-medium text-blue-600 hover:text-blue-500 bg-blue-50 px-3 py-1.5 rounded-md">
+              <button @click="handleDownloadDocument(doc)" type="button" class="font-medium text-blue-600 hover:text-blue-500 bg-blue-50 px-3 py-1.5 rounded-md">
                 Download
-              </a>
+              </button>
             </div>
           </li>
           <li v-if="project.documents?.length === 0" class="py-10 text-center text-gray-500 text-sm">

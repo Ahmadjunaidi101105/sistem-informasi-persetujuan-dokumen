@@ -91,13 +91,13 @@ const saveProject = async (submitImmediately = false) => {
   try {
     await projectsApi.update(project.value.id, form.value)
 
-    if (newFiles.value.length > 0) {
+    for (const file of newFiles.value) {
       const formData = new FormData()
-      newFiles.value.forEach(file => formData.append('documents[]', file))
+      formData.append('document', file)
       const uploadRes = await documentsApi.upload(project.value.id, formData)
-      existingFiles.value = [...existingFiles.value, ...(uploadRes.data.data || [])]
-      newFiles.value = []
+      existingFiles.value = [...existingFiles.value, uploadRes.data]
     }
+    newFiles.value = []
 
     if (submitImmediately) {
       await projectsApi.submit(project.value.id)
@@ -106,7 +106,7 @@ const saveProject = async (submitImmediately = false) => {
     } else {
       uiStore.showToast('Perubahan berhasil disimpan', 'success')
       const projRes = await projectsApi.get(project.value.id)
-      existingFiles.value = projRes.data.data.documents || []
+      existingFiles.value = projRes.data.documents || []
     }
     
   } catch (error) {
