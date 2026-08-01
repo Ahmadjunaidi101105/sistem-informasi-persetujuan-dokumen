@@ -45,8 +45,16 @@ class DashboardService
                 ->orderBy('month', 'asc')
                 ->get();
 
-            return [
+            $stats = [
                 'total_projects' => $totalProjects,
+                'pending_review' => $statusDistribution->get(ProjectStatus::SUBMITTED->value, 0) + $statusDistribution->get(ProjectStatus::IN_REVIEW->value, 0),
+                'approved' => $statusDistribution->get(ProjectStatus::APPROVED->value, 0),
+                'needs_revision' => $statusDistribution->get(ProjectStatus::REVISION->value, 0),
+                'rejected' => $statusDistribution->get(ProjectStatus::REJECTED->value, 0),
+            ];
+
+            return [
+                'stats' => $stats,
                 'status_distribution' => $statusDistribution,
                 'recent_projects' => $recentProjects,
                 'monthly_trends' => $monthlyTrends,
@@ -104,8 +112,16 @@ class DashboardService
                 ->limit(5)
                 ->get();
 
-            return [
+            $stats = [
                 'total_submissions' => $totalSubmissions,
+                'pending_review' => $statusDistribution->get(ProjectStatus::SUBMITTED->value, 0),
+                'in_review' => $statusDistribution->get(ProjectStatus::IN_REVIEW->value, 0),
+                'approved' => $statusDistribution->get(ProjectStatus::APPROVED->value, 0),
+                'rejected' => $statusDistribution->get(ProjectStatus::REJECTED->value, 0),
+            ];
+
+            return [
+                'stats' => $stats,
                 'status_distribution' => $statusDistribution,
                 'approval_rate' => $approvalRate,
                 'category_distribution' => $categoryDistribution,
