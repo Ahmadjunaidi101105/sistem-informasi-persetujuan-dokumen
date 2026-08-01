@@ -71,19 +71,19 @@ const donutOptions = {
             height="280" 
             :options="donutOptions" 
             :series="[
-              dashboardData.charts.approval_rate.approved || 0,
-              dashboardData.charts.approval_rate.rejected || 0,
-              dashboardData.charts.approval_rate.revised || 0
+              dashboardData.status_distribution?.approved || 0,
+              dashboardData.status_distribution?.rejected || 0,
+              dashboardData.status_distribution?.revised || 0
             ]" 
           />
         </div>
 
         <div class="lg:col-span-1">
-           <TrendChart :data="dashboardData.charts.monthly_trend" />
+           <TrendChart :data="dashboardData.monthly_trends" />
         </div>
 
         <div class="lg:col-span-1">
-           <CategoryChart :data="dashboardData.charts.by_category" />
+           <CategoryChart :data="dashboardData.category_distribution" />
         </div>
 
       </div>

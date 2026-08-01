@@ -48,11 +48,15 @@ const routes = [
 const router = createRouter({ history: createWebHistory(), routes })
 
 // Navigation guards
+let authChecked = false
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
 
-  // Pastikan data user diambil dari server jika token ada tapi state user kosong (misal saat refresh)
-  await authStore.checkAuth()
+  // Only fetch user data once on initial app load (not every navigation)
+  if (!authChecked) {
+    authChecked = true
+    await authStore.checkAuth()
+  }
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     return next({ name: 'login' })

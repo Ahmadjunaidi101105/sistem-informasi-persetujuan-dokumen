@@ -65,8 +65,8 @@ onMounted(async () => {
 
       <!-- Charts -->
       <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
-        <StatusChart :data="dashboardData.charts.status_distribution" />
-        <TrendChart :data="dashboardData.charts.monthly_trend" />
+        <StatusChart :data="dashboardData.status_distribution" />
+        <TrendChart :data="dashboardData.monthly_trends" />
       </div>
 
       <!-- Recent Projects -->

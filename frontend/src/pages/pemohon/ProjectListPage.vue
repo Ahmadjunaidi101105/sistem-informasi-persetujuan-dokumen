@@ -46,8 +46,9 @@ const loadData = async (page = 1) => {
   loading.value = true
   try {
     const res = await projectsApi.list({ ...filters.value, page })
-    projects.value = res.data.data
-    pagination.value = res.data.meta || { current_page: 1, last_page: 1, per_page: 10, total: res.data.data.length }
+    // ProjectCollection returns {data: [...], meta: {...}} directly (not wrapped in success)
+    projects.value = res.data || []
+    pagination.value = res.meta || { current_page: 1, last_page: 1, per_page: 10, total: 0 }
   } catch (e) {
     uiStore.showToast('Gagal memuat data', 'error')
   } finally {
@@ -58,7 +59,8 @@ const loadData = async (page = 1) => {
 const loadCategories = async () => {
   try {
     const res = await categoriesApi.list()
-    categories.value = res.data.data
+    // categories endpoint uses self::success() -> {success, data: [...]}
+    categories.value = res.data || []
   } catch (e) {}
 }
 

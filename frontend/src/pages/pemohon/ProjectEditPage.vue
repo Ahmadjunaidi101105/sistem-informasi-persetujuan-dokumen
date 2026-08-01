@@ -38,8 +38,8 @@ onMounted(async () => {
       projectsApi.get(route.params.id)
     ])
     
-    categories.value = catRes.data.data
-    project.value = projRes.data.data
+    categories.value = catRes.data || []
+    project.value = projRes.data
     
     if (!['draft', 'revised'].includes(project.value.status)) {
       uiStore.showToast('Project tidak dapat diubah dalam status ini', 'error')

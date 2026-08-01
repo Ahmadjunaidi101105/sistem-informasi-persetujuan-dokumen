@@ -37,8 +37,8 @@ const loadData = async (page = 1) => {
   loading.value = true
   try {
     const res = await reviewsApi.list({ ...filters.value, page })
-    reviews.value = res.data.data
-    pagination.value = res.data.meta || { current_page: 1, last_page: 1, per_page: 10, total: res.data.data.length }
+    reviews.value = res.data || []
+    pagination.value = res.meta || { current_page: 1, last_page: 1, per_page: 10, total: 0 }
   } catch (e) {
     uiStore.showToast('Gagal memuat riwayat', 'error')
   } finally {

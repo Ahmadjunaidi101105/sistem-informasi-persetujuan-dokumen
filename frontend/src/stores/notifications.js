@@ -11,8 +11,8 @@ export const useNotificationStore = defineStore('notifications', () => {
     loading.value = true
     try {
       const response = await notificationsApi.list(params)
-      notifications.value = response.data.data
-      return response.data
+      notifications.value = response.data || []
+      return response
     } finally {
       loading.value = false
     }
@@ -21,7 +21,7 @@ export const useNotificationStore = defineStore('notifications', () => {
   const fetchUnreadCount = async () => {
     try {
       const response = await notificationsApi.list({ unread_only: 1, per_page: 1 })
-      unreadCount.value = response.data.meta?.total || 0
+      unreadCount.value = response.meta?.total || 0
     } catch (e) {
       console.error(e)
     }

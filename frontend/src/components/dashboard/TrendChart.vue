@@ -5,7 +5,7 @@ import VueApexCharts from 'vue3-apexcharts'
 const props = defineProps({
   data: {
     type: Array,
-    required: true
+    default: () => []
   }
 })
 

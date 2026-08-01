@@ -32,7 +32,7 @@ const submitDialog = ref(false)
 const loadProject = async () => {
   try {
     const res = await projectsApi.get(route.params.id)
-    project.value = res.data.data
+    project.value = res.data
   } catch (e) {
     uiStore.showToast('Gagal memuat data project', 'error')
     router.push('/pemohon/projects')

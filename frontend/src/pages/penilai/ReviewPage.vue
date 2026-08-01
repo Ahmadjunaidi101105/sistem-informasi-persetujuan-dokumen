@@ -35,7 +35,7 @@ const confirmDialog = ref({ show: false, action: null, title: '', message: '', t
 onMounted(async () => {
   try {
     const res = await projectsApi.get(route.params.id)
-    project.value = res.data.data
+    project.value = res.data
     
     // Validasi apakah user bisa review project ini
     if (project.value.status !== 'in_review' || project.value.current_reviewer_id !== authStore.user?.id) {

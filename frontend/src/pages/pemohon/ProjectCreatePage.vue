@@ -30,7 +30,7 @@ const files = ref([])
 onMounted(async () => {
   try {
     const res = await categoriesApi.list()
-    categories.value = res.data.data
+    categories.value = res.data || []
   } catch (e) {
     uiStore.showToast('Gagal memuat kategori', 'error')
   }
@@ -51,7 +51,7 @@ const saveProject = async (submitImmediately = false) => {
   
   try {
     const res = await projectsApi.create(form.value)
-    const project = res.data.data
+    const project = res.data
 
     if (files.value.length > 0) {
       const formData = new FormData()

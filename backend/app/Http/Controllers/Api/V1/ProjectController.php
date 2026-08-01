@@ -36,7 +36,7 @@ class ProjectController extends BaseController
 
         $paginator = $this->projectService->list($filters, $request->user());
 
-        return new ProjectCollection($paginator);
+        return self::paginated($paginator);
     }
 
     public function store(StoreProjectRequest $request)

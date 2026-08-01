@@ -31,6 +31,7 @@ class AuthController extends BaseController
         }
 
         $user = auth()->user();
+        $user->load('roles');
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return self::success([
@@ -50,6 +51,7 @@ class AuthController extends BaseController
     public function user(Request $request)
     {
         $user = $request->user();
+        $user->load('roles');
 
         return self::success([
             'user' => new UserResource($user),
