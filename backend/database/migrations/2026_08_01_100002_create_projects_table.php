@@ -42,9 +42,11 @@ return new class extends Migration
             $table->index(['user_id', 'status']);
         });
 
-        // PostgreSQL CHECK constraints
-        DB::statement("ALTER TABLE projects ADD CONSTRAINT chk_projects_status CHECK (status IN ('draft', 'submitted', 'in_review', 'approved', 'revised', 'rejected'))");
-        DB::statement("ALTER TABLE projects ADD CONSTRAINT chk_projects_priority CHECK (priority IN ('low', 'normal', 'high'))");
+        // PostgreSQL CHECK constraints (skip on SQLite for testing)
+        if (DB::getDriverName() === 'pgsql') {
+            DB::statement("ALTER TABLE projects ADD CONSTRAINT chk_projects_status CHECK (status IN ('draft', 'submitted', 'in_review', 'approved', 'revised', 'rejected'))");
+            DB::statement("ALTER TABLE projects ADD CONSTRAINT chk_projects_priority CHECK (priority IN ('low', 'normal', 'high'))");
+        }
     }
 
     /**
@@ -52,8 +54,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement('ALTER TABLE projects DROP CONSTRAINT IF EXISTS chk_projects_status');
-        DB::statement('ALTER TABLE projects DROP CONSTRAINT IF EXISTS chk_projects_priority');
+        if (DB::getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE projects DROP CONSTRAINT IF EXISTS chk_projects_status');
+            DB::statement('ALTER TABLE projects DROP CONSTRAINT IF EXISTS chk_projects_priority');
+        }
         Schema::dropIfExists('projects');
     }
 };

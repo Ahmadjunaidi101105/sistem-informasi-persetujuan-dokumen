@@ -18,7 +18,7 @@ class UpdateProjectRequest extends FormRequest
         }
 
         $isOwner = $project->user_id === $this->user()->id;
-        $isEditableStatus = in_array($project->status, ['draft', 'revised']);
+        $isEditableStatus = in_array($project->status, [\App\Enums\ProjectStatus::Draft, \App\Enums\ProjectStatus::Revised]);
 
         return $isOwner && $isEditableStatus;
     }

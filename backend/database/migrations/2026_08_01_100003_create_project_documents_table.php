@@ -31,7 +31,9 @@ return new class extends Migration
         });
 
         // PostgreSQL CHECK constraint for file size (max 10MB)
-        DB::statement('ALTER TABLE project_documents ADD CONSTRAINT chk_docs_file_size CHECK (file_size > 0 AND file_size <= 10485760)');
+        if (DB::getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE project_documents ADD CONSTRAINT chk_docs_file_size CHECK (file_size > 0 AND file_size <= 10485760)');
+        }
     }
 
     /**
@@ -39,7 +41,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement('ALTER TABLE project_documents DROP CONSTRAINT IF EXISTS chk_docs_file_size');
+        if (DB::getDriverName() === 'pgsql') {
+            DB::statement('ALTER TABLE project_documents DROP CONSTRAINT IF EXISTS chk_docs_file_size');
+        }
         Schema::dropIfExists('project_documents');
     }
 };

@@ -57,7 +57,7 @@ class ProjectController extends BaseController
             'user', 
             'documentCategory', 
             'currentReviewer', 
-            'documents.uploadedBy', 
+            'documents.uploader', 
             'reviews.reviewer'
         ]);
         $project->loadCount(['documents', 'reviews']);

@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\ProjectStatus;
 use App\Models\Project;
 use App\Models\User;
 
@@ -20,7 +21,7 @@ class ProjectPolicy
 
         if ($user->hasRole('penilai')) {
             // Penilai bisa lihat semua kecuali draft milik orang lain
-            if ($project->status === 'draft' && $project->user_id !== $user->id) {
+            if ($project->status === ProjectStatus::Draft && $project->user_id !== $user->id) {
                 return false;
             }
             return true;
@@ -38,35 +39,35 @@ class ProjectPolicy
     {
         return $user->hasRole('pemohon') 
             && $user->id === $project->user_id 
-            && in_array($project->status, ['draft', 'revised']);
+            && in_array($project->status, [ProjectStatus::Draft, ProjectStatus::Revised]);
     }
 
     public function delete(User $user, Project $project): bool
     {
         return $user->hasRole('pemohon') 
             && $user->id === $project->user_id 
-            && $project->status === 'draft';
+            && $project->status === ProjectStatus::Draft;
     }
 
     public function submit(User $user, Project $project): bool
     {
         return $user->hasRole('pemohon') 
             && $user->id === $project->user_id 
-            && in_array($project->status, ['draft', 'revised'])
+            && in_array($project->status, [ProjectStatus::Draft, ProjectStatus::Revised])
             && $project->documents()->count() > 0;
     }
 
     public function takeReview(User $user, Project $project): bool
     {
         return $user->hasRole('penilai') 
-            && $project->status === 'submitted' 
+            && $project->status === ProjectStatus::Submitted 
             && is_null($project->current_reviewer_id);
     }
 
     public function review(User $user, Project $project): bool
     {
         return $user->hasRole('penilai') 
-            && $project->status === 'in_review' 
+            && $project->status === ProjectStatus::InReview 
             && $project->current_reviewer_id === $user->id;
     }
 

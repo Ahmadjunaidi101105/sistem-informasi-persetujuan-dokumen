@@ -80,10 +80,11 @@ class Project extends Model
     public function scopeSearch($query, ?string $search)
     {
         if (! $search) return $query;
-        return $query->where(function ($q) use ($search) {
-            $q->where('title', 'ILIKE', "%{$search}%")
-              ->orWhere('project_code', 'ILIKE', "%{$search}%")
-              ->orWhere('description', 'ILIKE', "%{$search}%");
+        $operator = \DB::getDriverName() === 'pgsql' ? 'ILIKE' : 'LIKE';
+        return $query->where(function ($q) use ($search, $operator) {
+            $q->where('title', $operator, "%{$search}%")
+              ->orWhere('project_code', $operator, "%{$search}%")
+              ->orWhere('description', $operator, "%{$search}%");
         });
     }
 
