@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Policies\ProjectPolicy;
 use App\Models\ProjectDocument;
 use App\Policies\ProjectDocumentPolicy;
+use App\Observers\ProjectObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::policy(Project::class, ProjectPolicy::class);
         Gate::policy(ProjectDocument::class, ProjectDocumentPolicy::class);
+
+        Project::observe(ProjectObserver::class);
     }
 }

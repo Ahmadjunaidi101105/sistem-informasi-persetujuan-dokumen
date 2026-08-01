@@ -115,19 +115,19 @@
 ### Phase 4: Performance Optimization (Bobot: 20%)
 - [ ] Eager loading di semua query yang butuh relasi
 - [ ] Implement cursor/offset pagination
-- [ ] Redis caching untuk dashboard (TTL 5 menit)
-- [ ] Redis caching untuk document_categories (TTL 1 jam)
-- [ ] Cache invalidation via Model Observer
+- [x] Redis caching untuk dashboard (TTL 5 menit)
+- [x] Redis caching untuk document_categories (TTL 1 jam)
+- [x] Cache invalidation via Model Observer
 - [ ] Queue setup (Redis driver)
   - [ ] UploadDocumentJob
   - [ ] SendNotificationJob
   - [ ] ExportProjectsJob
-- [ ] Notifications via Queue
-  - [ ] ProjectSubmittedNotification
-  - [ ] ProjectTakenForReviewNotification
-  - [ ] ProjectApprovedNotification
-  - [ ] ProjectRevisedNotification
-  - [ ] ProjectRejectedNotification
+- [x] Notifications via Queue
+  - [x] ProjectSubmittedNotification
+  - [x] ProjectTakenForReviewNotification
+  - [x] ProjectApprovedNotification
+  - [x] ProjectRevisedNotification
+  - [x] ProjectRejectedNotification
 - [ ] Database query optimization (EXPLAIN ANALYZE critical queries)
 - [ ] API response time check (< 200ms list, < 100ms single)
 - [ ] N+1 query detection & fix

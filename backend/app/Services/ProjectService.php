@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Models\Project;
 use App\Models\User;
 use App\Enums\ProjectStatus;
+use App\Notifications\ProjectSubmittedNotification;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProjectService
@@ -55,6 +57,9 @@ class ProjectService
                 'notes' => 'Project submitted for review',
                 'reviewed_at' => now(),
             ]);
+
+            $penilais = User::role('penilai')->get();
+            Notification::send($penilais, new ProjectSubmittedNotification($project));
 
             return $project;
         });

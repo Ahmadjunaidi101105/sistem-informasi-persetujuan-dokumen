@@ -5,6 +5,10 @@ namespace App\Services;
 use App\Models\Project;
 use App\Models\User;
 use App\Enums\ProjectStatus;
+use App\Notifications\ProjectTakenForReviewNotification;
+use App\Notifications\ProjectApprovedNotification;
+use App\Notifications\ProjectRevisedNotification;
+use App\Notifications\ProjectRejectedNotification;
 use Illuminate\Support\Facades\DB;
 
 class ReviewService
@@ -29,6 +33,8 @@ class ReviewService
                 'notes' => 'Project taken for review',
                 'reviewed_at' => now(),
             ]);
+
+            $project->user->notify(new ProjectTakenForReviewNotification($project));
 
             return $project;
         });
@@ -55,6 +61,8 @@ class ReviewService
                 'notes' => $notes,
                 'reviewed_at' => now(),
             ]);
+
+            $project->user->notify(new ProjectApprovedNotification($project));
 
             return $project;
         });
@@ -83,6 +91,8 @@ class ReviewService
                 'reviewed_at' => now(),
             ]);
 
+            $project->user->notify(new ProjectRevisedNotification($project));
+
             return $project;
         });
     }
@@ -108,6 +118,8 @@ class ReviewService
                 'notes' => $notes,
                 'reviewed_at' => now(),
             ]);
+
+            $project->user->notify(new ProjectRejectedNotification($project));
 
             return $project;
         });
