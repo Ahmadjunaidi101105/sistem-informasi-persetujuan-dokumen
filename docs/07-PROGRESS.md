@@ -18,20 +18,20 @@
 - [x] Setup Axios instance with interceptors
 
 ### Phase 2: Database & Models (Bobot: 20%)
-- [ ] Create migration: users (extend default)
-- [ ] Create migration: document_categories
-- [ ] Create migration: projects (with indexes & constraints)
-- [ ] Create migration: project_documents
-- [ ] Create migration: project_reviews
-- [ ] Create migration: notifications
-- [ ] Add PostgreSQL CHECK constraints
-- [ ] Add composite indexes
-- [ ] Add partial indexes
-- [ ] Create Model: User (with relationships, scopes)
-- [ ] Create Model: DocumentCategory
-- [ ] Create Model: Project (with relationships, scopes, status enum)
-- [ ] Create Model: ProjectDocument
-- [ ] Create Model: ProjectReview
+- [x] Create migration: users (extend default)
+- [x] Create migration: document_categories
+- [x] Create migration: projects (with indexes & constraints)
+- [x] Create migration: project_documents
+- [x] Create migration: project_reviews
+- [x] Create migration: notifications (jsonb)
+- [x] Add PostgreSQL CHECK constraints
+- [x] Add composite indexes
+- [x] Add partial indexes
+- [x] Create Model: User (with relationships, scopes)
+- [x] Create Model: DocumentCategory
+- [x] Create Model: Project (with relationships, scopes, status enum)
+- [x] Create Model: ProjectDocument
+- [x] Create Model: ProjectReview
 - [x] Create Enum: ProjectStatus
 - [x] Create Enum: ProjectPriority
 - [ ] Create Factory: UserFactory
