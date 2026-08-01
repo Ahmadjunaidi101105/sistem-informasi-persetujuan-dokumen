@@ -31,6 +31,7 @@ class ProjectSubmittedNotification extends Notification implements ShouldQueue
             'message' => "Permohonan dengan kode {$this->project->project_code} telah diajukan dan menunggu penilaian.",
             'project_id' => $this->project->id,
             'project_code' => $this->project->project_code,
+            'link' => '/penilai/submissions',
         ];
     }
 }

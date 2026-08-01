@@ -16,7 +16,7 @@ class DocumentController extends BaseController
     {
         Gate::authorize('view', $project);
 
-        $documents = $project->documents()->with('uploadedBy')->get();
+        $documents = $project->documents()->with('uploader')->get();
         return self::success(ProjectDocumentResource::collection($documents));
     }
 
@@ -44,10 +44,10 @@ class DocumentController extends BaseController
                 'mime_type' => $mimeType,
                 'file_size' => $fileSize,
                 'version' => $latestVersion + 1,
-                'uploaded_by_id' => $request->user()->id,
+                'uploaded_by' => $request->user()->id,
             ]);
 
-            $document->load('uploadedBy');
+            $document->load('uploader');
 
             return self::created(new ProjectDocumentResource($document), 'Dokumen berhasil diupload');
         } catch (\Exception $e) {

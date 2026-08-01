@@ -25,10 +25,10 @@ class ProjectReviewResource extends JsonResource
                 ];
             }),
             'reviewer' => new UserResource($this->whenLoaded('reviewer')),
-            'status_from' => $this->status_from,
-            'status_from_label' => ProjectStatus::tryFrom($this->status_from)?->label(),
-            'status_to' => $this->status_to,
-            'status_to_label' => ProjectStatus::tryFrom($this->status_to)?->label(),
+            'status_from' => $this->status_from instanceof ProjectStatus ? $this->status_from->value : $this->status_from,
+            'status_from_label' => $this->status_from instanceof ProjectStatus ? $this->status_from->label() : ProjectStatus::tryFrom($this->status_from)?->label(),
+            'status_to' => $this->status_to instanceof ProjectStatus ? $this->status_to->value : $this->status_to,
+            'status_to_label' => $this->status_to instanceof ProjectStatus ? $this->status_to->label() : ProjectStatus::tryFrom($this->status_to)?->label(),
             'notes' => $this->notes,
             'reviewed_at' => $this->reviewed_at,
         ];

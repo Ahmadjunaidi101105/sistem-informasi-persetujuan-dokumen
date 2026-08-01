@@ -35,8 +35,8 @@ onMounted(async () => {
 
 const donutOptions = {
   chart: { type: 'donut' },
-  labels: ['Approved', 'Rejected', 'Revised'],
-  colors: ['#10b981', '#ef4444', '#f59e0b'],
+  labels: ['Disetujui', 'Ditolak', 'Perlu Revisi'],
+  colors: ['#039855', '#ef4444', '#f7941d'],
   dataLabels: { enabled: true, formatter: (val) => val.toFixed(1) + '%' },
   plotOptions: { pie: { donut: { size: '65%' } } },
   legend: { position: 'bottom' }
@@ -53,10 +53,10 @@ const donutOptions = {
       
       <!-- Stats -->
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
-        <StatCard title="Total Pengajuan" :value="dashboardData.stats.total_submissions" :icon="FolderIcon" color="blue" />
-        <StatCard title="Menunggu Review" :value="dashboardData.stats.pending_review" :icon="ClockIcon" color="amber" />
-        <StatCard title="Sedang Direview" :value="dashboardData.stats.in_review" :icon="PlayIcon" color="blue" />
-        <StatCard title="Disetujui" :value="dashboardData.stats.approved" :icon="CheckCircleIcon" color="green" />
+        <StatCard title="Total Pengajuan" :value="dashboardData.stats.total_submissions" :icon="FolderIcon" color="brand" />
+        <StatCard title="Menunggu Dinilai" :value="dashboardData.stats.pending_review" :icon="ClockIcon" color="sky" />
+        <StatCard title="Sedang Dinilai" :value="dashboardData.stats.in_review" :icon="PlayIcon" color="amber" />
+        <StatCard title="Disetujui" :value="dashboardData.stats.approved" :icon="CheckCircleIcon" color="brand" />
         <StatCard title="Ditolak" :value="dashboardData.stats.rejected" :icon="XCircleIcon" color="red" />
       </div>
 
@@ -64,7 +64,7 @@ const donutOptions = {
       <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
         
         <div class="bg-white rounded-lg shadow p-4 flex flex-col items-center justify-center">
-          <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4 self-start w-full">Approval Rate</h3>
+          <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4 self-start w-full">Tingkat Persetujuan</h3>
           <VueApexCharts 
             type="donut" 
             width="100%"
@@ -79,7 +79,7 @@ const donutOptions = {
         </div>
 
         <div class="lg:col-span-1">
-           <TrendChart :data="dashboardData.monthly_trends" />
+           <TrendChart :data="dashboardData.monthly_trends" title="Tren Keputusan Bulanan" />
         </div>
 
         <div class="lg:col-span-1">
@@ -91,8 +91,8 @@ const donutOptions = {
       <!-- Recent Reviews -->
       <div class="bg-white shadow rounded-lg">
         <div class="px-4 py-5 sm:px-6 flex justify-between items-center border-b border-gray-200">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">Review Terakhir</h3>
-          <router-link to="/penilai/submissions" class="text-sm font-medium text-blue-600 hover:text-blue-500">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Sedang Direview</h3>
+          <router-link to="/penilai/submissions" class="text-sm font-medium text-brand-700 hover:text-brand-500">
             Lihat Semua Pengajuan &rarr;
           </router-link>
         </div>
@@ -102,26 +102,26 @@ const donutOptions = {
               <tr>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pemohon</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status Review</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="review in dashboardData.recent_reviews" :key="review.id" class="hover:bg-gray-50 cursor-pointer" @click="router.push(`/penilai/submissions/${review.project_id}`)">
+              <tr v-for="review in dashboardData.recent_reviews" :key="review.id" class="hover:bg-gray-50 cursor-pointer" @click="router.push(`/penilai/submissions/${review.id}/review`)">
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm font-medium text-gray-900">{{ review.project?.project_code }}</div>
-                  <div class="text-xs text-gray-500 truncate max-w-[200px]">{{ review.project?.title }}</div>
+                  <div class="text-sm font-medium text-gray-900">{{ review.project_code }}</div>
+                  <div class="text-xs text-gray-500 truncate max-w-[200px]">{{ review.title }}</div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ review.project?.user?.name }}
+                  {{ review.user?.name }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <StatusBadge :status="review.status_to" />
+                  <StatusBadge :status="review.status" />
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatDate(review.created_at) }}</td>
               </tr>
               <tr v-if="dashboardData.recent_reviews.length === 0">
-                <td colspan="4" class="px-6 py-10 text-center text-gray-500">Belum ada history review</td>
+                <td colspan="4" class="px-6 py-10 text-center text-gray-500">Tidak ada project yang sedang Anda review</td>
               </tr>
             </tbody>
           </table>

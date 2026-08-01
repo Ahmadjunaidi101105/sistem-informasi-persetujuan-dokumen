@@ -47,7 +47,7 @@ class ProjectPolicyTest extends TestCase
         $pemohon = $this->createPemohon();
         $project = $this->createProjectWithDocuments($pemohon, 'draft', 0);
 
-        $this->assertTrue($this->policy->update($pemohon, $project));
+        $this->assertTrue($this->policy->update($pemohon, $project)->allowed());
     }
 
     public function test_pemohon_can_update_own_revised_project(): void
@@ -55,7 +55,7 @@ class ProjectPolicyTest extends TestCase
         $pemohon = $this->createPemohon();
         $project = $this->createProjectWithDocuments($pemohon, 'revised', 0);
 
-        $this->assertTrue($this->policy->update($pemohon, $project));
+        $this->assertTrue($this->policy->update($pemohon, $project)->allowed());
     }
 
     public function test_pemohon_cannot_update_submitted_project(): void
@@ -63,7 +63,7 @@ class ProjectPolicyTest extends TestCase
         $pemohon = $this->createPemohon();
         $project = $this->createProjectWithDocuments($pemohon, 'submitted', 0);
 
-        $this->assertFalse($this->policy->update($pemohon, $project));
+        $this->assertTrue($this->policy->update($pemohon, $project)->denied());
     }
 
     public function test_pemohon_cannot_update_approved_project(): void
@@ -71,7 +71,7 @@ class ProjectPolicyTest extends TestCase
         $pemohon = $this->createPemohon();
         $project = $this->createProjectWithDocuments($pemohon, 'approved', 0);
 
-        $this->assertFalse($this->policy->update($pemohon, $project));
+        $this->assertTrue($this->policy->update($pemohon, $project)->denied());
     }
 
     // --- delete ---
@@ -81,7 +81,7 @@ class ProjectPolicyTest extends TestCase
         $pemohon = $this->createPemohon();
         $project = $this->createProjectWithDocuments($pemohon, 'draft', 0);
 
-        $this->assertTrue($this->policy->delete($pemohon, $project));
+        $this->assertTrue($this->policy->delete($pemohon, $project)->allowed());
     }
 
     public function test_pemohon_cannot_delete_submitted_project(): void
@@ -89,7 +89,7 @@ class ProjectPolicyTest extends TestCase
         $pemohon = $this->createPemohon();
         $project = $this->createProjectWithDocuments($pemohon, 'submitted', 0);
 
-        $this->assertFalse($this->policy->delete($pemohon, $project));
+        $this->assertTrue($this->policy->delete($pemohon, $project)->denied());
     }
 
     // --- penilai view ---
@@ -122,7 +122,7 @@ class ProjectPolicyTest extends TestCase
         $project->current_reviewer_id = $penilai->id;
         $project->save();
 
-        $this->assertTrue($this->policy->review($penilai, $project));
+        $this->assertTrue($this->policy->review($penilai, $project)->allowed());
     }
 
     public function test_penilai_cannot_review_project_assigned_to_another(): void
@@ -134,6 +134,6 @@ class ProjectPolicyTest extends TestCase
         $project->current_reviewer_id = $penilai1->id;
         $project->save();
 
-        $this->assertFalse($this->policy->review($penilai2, $project));
+        $this->assertTrue($this->policy->review($penilai2, $project)->denied());
     }
 }

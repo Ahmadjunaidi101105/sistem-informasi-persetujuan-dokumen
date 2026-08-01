@@ -42,7 +42,7 @@ const viewAll = (close) => {
 
 <template>
   <Popover class="relative">
-    <PopoverButton class="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+    <PopoverButton class="relative rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">
       <span class="sr-only">View notifications</span>
       <BellIcon class="h-6 w-6" aria-hidden="true" />
       <span v-if="notificationStore.unreadCount > 0" class="absolute top-0 right-0 block h-4 w-4 rounded-full bg-red-500 text-[10px] font-bold text-white text-center leading-4 ring-2 ring-white">
@@ -54,7 +54,7 @@ const viewAll = (close) => {
       <PopoverPanel v-slot="{ close }" class="absolute right-0 z-10 mt-2 w-80 sm:w-96 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
         <div class="p-4 border-b border-gray-100 flex justify-between items-center">
           <h3 class="text-sm font-semibold text-gray-900">Notifikasi</h3>
-          <button v-if="notificationStore.unreadCount > 0" @click="handleMarkAllAsRead" class="text-xs text-blue-600 hover:text-blue-800">
+          <button v-if="notificationStore.unreadCount > 0" @click="handleMarkAllAsRead" class="text-xs text-brand-700 hover:text-brand-800">
             Tandai Semua Dibaca
           </button>
         </div>
@@ -67,7 +67,7 @@ const viewAll = (close) => {
             Tidak ada notifikasi
           </div>
           <div v-else class="divide-y divide-gray-100">
-            <div v-for="notif in notificationStore.notifications" :key="notif.id" :class="[!notif.read_at ? 'bg-blue-50' : '', 'p-4 hover:bg-gray-50 transition duration-150']">
+            <div v-for="notif in notificationStore.notifications" :key="notif.id" :class="[!notif.read_at ? 'bg-brand-50' : '', 'p-4 hover:bg-gray-50 transition duration-150']">
               <div class="flex justify-between items-start">
                 <div class="flex-1 min-w-0 pr-4">
                   <p class="text-sm font-medium text-gray-900 truncate">
@@ -81,8 +81,8 @@ const viewAll = (close) => {
                   </p>
                 </div>
                 <div v-if="!notif.read_at">
-                  <button @click.stop="handleMarkAsRead(notif.id)" class="text-xs text-blue-600 hover:text-blue-800" title="Tandai dibaca">
-                    <span class="h-2 w-2 bg-blue-600 rounded-full inline-block"></span>
+                  <button @click.stop="handleMarkAsRead(notif.id)" class="text-xs text-brand-700 hover:text-brand-800" title="Tandai dibaca">
+                    <span class="h-2 w-2 bg-brand-700 rounded-full inline-block"></span>
                   </button>
                 </div>
               </div>
@@ -91,7 +91,7 @@ const viewAll = (close) => {
         </div>
 
         <div class="p-2 border-t border-gray-100 text-center">
-          <button @click="viewAll(close)" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+          <button @click="viewAll(close)" class="text-sm text-brand-700 hover:text-brand-800 font-medium">
             Lihat Semua
           </button>
         </div>

@@ -82,7 +82,7 @@ const navigateToProject = (projectId) => {
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <SearchInput v-model="filters.search" placeholder="Cari kode atau judul..." />
         
-        <select v-model="filters.status_to" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-blue-600 sm:text-sm sm:leading-6">
+        <select v-model="filters.status_to" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-brand-700 sm:text-sm sm:leading-6">
           <option value="">Semua Keputusan</option>
           <option value="approved">Approved</option>
           <option value="revised">Revised</option>
@@ -100,7 +100,7 @@ const navigateToProject = (projectId) => {
       @sort="handleSort"
     >
       <template #col-project_code="{ row }">
-        <button @click="navigateToProject(row.project_id)" class="font-medium text-blue-600 hover:text-blue-900">
+        <button @click="navigateToProject(row.project_id)" class="font-medium text-brand-700 hover:text-brand-900">
           {{ row.project?.project_code }}
         </button>
       </template>

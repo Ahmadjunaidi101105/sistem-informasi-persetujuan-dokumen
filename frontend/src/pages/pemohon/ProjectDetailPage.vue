@@ -2,6 +2,8 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { projectsApi } from '@/api/projects'
+import { exportsApi } from '@/api/exports'
+import { documentsApi } from '@/api/documents'
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import StatusBadge from '@/components/common/StatusBadge.vue'
 import ProjectTimeline from '@/components/project/ProjectTimeline.vue'
@@ -28,6 +30,7 @@ const project = ref(null)
 const activeTab = ref('info') // info, docs, history
 
 const submitDialog = ref(false)
+const exportingPdf = ref(false)
 
 const loadProject = async () => {
   try {
@@ -69,17 +72,39 @@ const handleSubmit = async () => {
   }
 }
 
-const handleExportPdf = async () => {
+const handleDownloadDocument = async (doc) => {
   try {
-    const res = await projectsApi.exportPdf(project.value.id, { responseType: 'blob' })
-    const url = window.URL.createObjectURL(new Blob([res.data]))
+    const blob = await documentsApi.download(doc.id)
+    const url = window.URL.createObjectURL(new Blob([blob]))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', doc.original_name)
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    window.URL.revokeObjectURL(url)
+  } catch (e) {
+    uiStore.showToast('Gagal mengunduh dokumen', 'error')
+  }
+}
+
+const handleExportPdf = async () => {
+  if (exportingPdf.value) return
+  exportingPdf.value = true
+  try {
+    const blob = await exportsApi.exportPdf(project.value.id)
+    const url = window.URL.createObjectURL(new Blob([blob]))
     const link = document.createElement('a')
     link.href = url
     link.setAttribute('download', `project-${project.value.project_code}.pdf`)
     document.body.appendChild(link)
     link.click()
+    link.remove()
+    window.URL.revokeObjectURL(url)
   } catch (e) {
     uiStore.showToast('Gagal mengekspor PDF', 'error')
+  } finally {
+    exportingPdf.value = false
   }
 }
 
@@ -111,9 +136,10 @@ const tabs = [
           </div>
         </div>
         <div class="mt-4 flex sm:ml-4 sm:mt-0 space-x-3">
-          <button @click="handleExportPdf" type="button" class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-            <DocumentArrowDownIcon class="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-            Export PDF
+          <button @click="handleExportPdf" :disabled="exportingPdf" type="button" class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60">
+            <DocumentArrowDownIcon v-if="!exportingPdf" class="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
+            <span v-else class="-ml-0.5 mr-1.5 h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-brand-700" aria-hidden="true"></span>
+            {{ exportingPdf ? 'Menyiapkan...' : 'Export PDF' }}
           </button>
           
           <router-link v-if="isEditable" :to="`/pemohon/projects/${project.id}/edit`" class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
@@ -121,7 +147,7 @@ const tabs = [
             Edit
           </router-link>
 
-          <button v-if="isEditable" @click="submitDialog = true" type="button" class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+          <button v-if="isEditable" @click="submitDialog = true" type="button" class="inline-flex items-center rounded-md bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
             <PaperAirplaneIcon class="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
             Submit
           </button>
@@ -132,7 +158,7 @@ const tabs = [
       <div class="mb-6">
         <div class="sm:hidden">
           <label for="tabs" class="sr-only">Select a tab</label>
-          <select id="tabs" name="tabs" v-model="activeTab" class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm">
+          <select id="tabs" name="tabs" v-model="activeTab" class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-brand-500 focus:outline-none focus:ring-brand-500 sm:text-sm">
             <option v-for="tab in tabs" :key="tab.id" :value="tab.id">{{ tab.name }}</option>
           </select>
         </div>
@@ -143,10 +169,10 @@ const tabs = [
                 v-for="tab in tabs" 
                 :key="tab.id" 
                 @click="activeTab = tab.id"
-                :class="[activeTab === tab.id ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 'whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium']"
+                :class="[activeTab === tab.id ? 'border-brand-500 text-brand-700' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 'whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium']"
               >
                 {{ tab.name }}
-                <span v-if="tab.id === 'docs'" :class="[activeTab === tab.id ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-900', 'ml-2 rounded-full py-0.5 px-2.5 text-xs font-medium inline-block']">
+                <span v-if="tab.id === 'docs'" :class="[activeTab === tab.id ? 'bg-brand-100 text-brand-700' : 'bg-gray-100 text-gray-900', 'ml-2 rounded-full py-0.5 px-2.5 text-xs font-medium inline-block']">
                   {{ project.documents?.length || 0 }}
                 </span>
               </button>
@@ -173,7 +199,7 @@ const tabs = [
             </div>
             <div class="sm:col-span-1">
               <dt class="text-sm font-medium text-gray-500">Prioritas</dt>
-              <dd class="mt-1 text-sm text-gray-900">{{ PRIORITY_MAP[project.priority] || project.priority }}</dd>
+              <dd class="mt-1 text-sm text-gray-900">{{ PRIORITY_MAP[project.priority]?.label || project.priority }}</dd>
             </div>
             <div class="sm:col-span-1">
               <dt class="text-sm font-medium text-gray-500">Pemohon</dt>
@@ -206,7 +232,7 @@ const tabs = [
             <h3 class="text-base font-semibold leading-7 text-gray-900">Dokumen Lampiran</h3>
             <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Daftar dokumen yang dilampirkan pada permohonan ini.</p>
           </div>
-          <router-link v-if="isEditable" :to="`/pemohon/projects/${project.id}/edit`" class="text-sm font-medium text-blue-600 hover:text-blue-500">
+          <router-link v-if="isEditable" :to="`/pemohon/projects/${project.id}/edit`" class="text-sm font-medium text-brand-700 hover:text-brand-500">
             Upload Baru
           </router-link>
         </div>
@@ -220,9 +246,9 @@ const tabs = [
               </div>
             </div>
             <div class="ml-4 flex-shrink-0">
-              <a :href="doc.download_url" target="_blank" class="font-medium text-blue-600 hover:text-blue-500 bg-blue-50 px-3 py-1.5 rounded-md">
+              <button @click="handleDownloadDocument(doc)" type="button" class="font-medium text-brand-700 hover:text-brand-500 bg-brand-50 px-3 py-1.5 rounded-md">
                 Download
-              </a>
+              </button>
             </div>
           </li>
           <li v-if="project.documents?.length === 0" class="py-10 text-center text-gray-500 text-sm">

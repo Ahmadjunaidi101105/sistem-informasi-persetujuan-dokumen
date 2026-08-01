@@ -107,7 +107,7 @@ const handleDelete = async () => {
         <p class="mt-2 text-sm text-gray-500">Kelola semua pengajuan permohonan persetujuan dokumen Anda.</p>
       </div>
       <div class="mt-4 sm:ml-4 sm:mt-0">
-        <router-link to="/pemohon/projects/create" class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+        <router-link to="/pemohon/projects/create" class="inline-flex items-center rounded-md bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
           <PlusIcon class="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
           Buat Baru
         </router-link>
@@ -118,12 +118,12 @@ const handleDelete = async () => {
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <SearchInput v-model="filters.search" placeholder="Cari kode atau judul..." />
         
-        <select v-model="filters.status" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-blue-600 sm:text-sm sm:leading-6">
+        <select v-model="filters.status" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-brand-700 sm:text-sm sm:leading-6">
           <option value="">Semua Status</option>
           <option v-for="(config, key) in STATUS_MAP" :key="key" :value="key">{{ config.label }}</option>
         </select>
 
-        <select v-model="filters.category_id" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-blue-600 sm:text-sm sm:leading-6">
+        <select v-model="filters.category_id" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-brand-700 sm:text-sm sm:leading-6">
           <option value="">Semua Kategori</option>
           <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
         </select>
@@ -156,7 +156,7 @@ const handleDelete = async () => {
       <template #col-actions="{ row }">
         <Menu as="div" class="relative inline-block text-left">
           <div>
-            <MenuButton class="flex items-center rounded-full bg-gray-100 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+            <MenuButton class="flex items-center rounded-full bg-gray-100 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-gray-100">
               <span class="sr-only">Open options</span>
               <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
             </MenuButton>

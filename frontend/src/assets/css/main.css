@@ -1,1 +1,81 @@
 @import "tailwindcss";
+
+/*
+| SIPDOK brand palette
+|
+| Deep green carries the primary/structural weight, amber-orange is the
+| accent reserved for calls to action and highlights, and near-black is
+| used for surfaces that need to recede. Tailwind v4 reads design tokens
+| straight from @theme, so these become bg-brand-600, text-accent-500, etc.
+*/
+@theme {
+  --color-brand-50: #ecfdf3;
+  --color-brand-100: #d1fadf;
+  --color-brand-200: #a6f4c5;
+  --color-brand-300: #6ce9a6;
+  --color-brand-400: #32d583;
+  --color-brand-500: #12b76a;
+  --color-brand-600: #039855;
+  --color-brand-700: #027a48;
+  --color-brand-800: #05603a;
+  --color-brand-900: #054f31;
+  --color-brand-950: #032b1c;
+
+  --color-accent-50: #fff8eb;
+  --color-accent-100: #ffefc6;
+  --color-accent-200: #ffdb88;
+  --color-accent-300: #ffc14a;
+  --color-accent-400: #ffa620;
+  --color-accent-500: #f7941d;
+  --color-accent-600: #dd7302;
+  --color-accent-700: #b75106;
+  --color-accent-800: #943e0c;
+  --color-accent-900: #7a340d;
+
+  --color-ink-50: #f6f7f7;
+  --color-ink-700: #2c3134;
+  --color-ink-800: #202426;
+  --color-ink-900: #16181a;
+  --color-ink-950: #0d0f10;
+
+  --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-ink-800 antialiased;
+  }
+
+  /* Visible focus ring for keyboard users on every interactive element. */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-600;
+  }
+}
+
+@layer utilities {
+  /* Section entrance animation, disabled for reduced-motion users. */
+  .animate-rise {
+    animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-rise {
+      animation: none;
+    }
+  }
+}
