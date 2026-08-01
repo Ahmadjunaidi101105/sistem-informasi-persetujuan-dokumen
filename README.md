@@ -125,7 +125,7 @@ php artisan test --coverage
 
 ## API Documentation
 
-Lihat [docs/03-API.md](docs/03-API.md) untuk dokumentasi REST API lengkap.
+Lihat [docs/API-DOCUMENTATION.md](docs/API-DOCUMENTATION.md) untuk dokumentasi REST API lengkap.
 
 ### Base URL
 ```

@@ -254,7 +254,7 @@
   - [x] API documentation link
   - [x] Test credentials
   - [x] Screenshots
-- [ ] API Documentation (Postman collection or API.md)
+- [x] API Documentation (Postman collection or API.md)
 - [ ] Git history review
   - [ ] Meaningful commit messages
   - [ ] Feature branches merged
