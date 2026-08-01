@@ -174,9 +174,11 @@
   - [ ] dashboard.js
   - [ ] notifications.js
   - [ ] exports.js
-- [ ] **Auth Pages**
-  - [ ] LoginPage.vue
-  - [ ] RegisterPage.vue
+
+### Phase 6: Pages Implementation (Bobot: 20%)
+- [x] **Auth Pages**
+  - [x] Login.vue
+  - [x] Register.vue
 - [ ] **Pemohon Pages**
   - [ ] DashboardPage.vue (stats + charts + recent)
   - [ ] ProjectListPage.vue (filter, search, sort, pagination)
