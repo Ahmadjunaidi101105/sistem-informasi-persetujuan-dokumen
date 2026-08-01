@@ -35,6 +35,9 @@ class ReviewController extends BaseController
         }
 
         $reviews = $query->orderBy('reviewed_at', 'desc')->paginate($request->get('per_page', 15));
+        $reviews->setCollection(
+            $reviews->getCollection()->map(fn ($review) => new ProjectReviewResource($review))
+        );
 
         return self::paginated($reviews);
     }

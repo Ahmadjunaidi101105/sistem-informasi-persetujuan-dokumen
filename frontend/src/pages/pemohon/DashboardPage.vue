@@ -41,25 +41,25 @@ onMounted(async () => {
           title="Total Project" 
           :value="dashboardData.stats.total_projects" 
           :icon="FolderIcon" 
-          color="blue" 
+          color="brand" 
         />
         <StatCard 
           title="Menunggu Review" 
           :value="dashboardData.stats.pending_review" 
           :icon="ClockIcon" 
-          color="amber" 
+          color="sky" 
         />
         <StatCard 
           title="Disetujui" 
           :value="dashboardData.stats.approved" 
           :icon="CheckCircleIcon" 
-          color="green" 
+          color="brand" 
         />
         <StatCard 
           title="Perlu Revisi" 
           :value="dashboardData.stats.needs_revision" 
           :icon="ExclamationTriangleIcon" 
-          color="amber" 
+          color="accent" 
         />
       </div>
 
@@ -73,7 +73,7 @@ onMounted(async () => {
       <div class="bg-white shadow rounded-lg">
         <div class="px-4 py-5 sm:px-6 flex justify-between items-center border-b border-gray-200">
           <h3 class="text-lg leading-6 font-medium text-gray-900">Project Terakhir</h3>
-          <router-link to="/pemohon/projects" class="text-sm font-medium text-blue-600 hover:text-blue-500">
+          <router-link to="/pemohon/projects" class="text-sm font-medium text-brand-700 hover:text-brand-500">
             Lihat Semua &rarr;
           </router-link>
         </div>

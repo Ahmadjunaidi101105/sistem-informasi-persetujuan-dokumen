@@ -24,7 +24,7 @@ const handleLogout = async () => {
 
 <template>
   <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white shadow border-b border-gray-200">
-    <button type="button" class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 md:hidden" @click="uiStore.toggleSidebar(true)">
+    <button type="button" class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-500 md:hidden" @click="uiStore.toggleSidebar(true)">
       <span class="sr-only">Open sidebar</span>
       <Bars3Icon class="h-6 w-6" aria-hidden="true" />
     </button>
@@ -40,9 +40,9 @@ const handleLogout = async () => {
         <!-- Profile dropdown -->
         <Menu as="div" class="relative ml-3">
           <div>
-            <MenuButton class="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            <MenuButton class="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">
               <span class="sr-only">Open user menu</span>
-              <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold hover:bg-blue-200 transition">
+              <div class="h-8 w-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-800 font-bold hover:bg-brand-200 transition">
                 {{ authStore.userName.charAt(0).toUpperCase() }}
               </div>
             </MenuButton>

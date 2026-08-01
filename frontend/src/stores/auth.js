@@ -36,8 +36,6 @@ export const useAuthStore = defineStore('auth', () => {
   const login = async (credentials) => {
     loading.value = true
     try {
-      // Fetch CSRF cookie first for Sanctum SPA authentication
-      await authApi.getCsrfCookie()
       const response = await authApi.login(credentials)
       setAuth(response.data)
       return response

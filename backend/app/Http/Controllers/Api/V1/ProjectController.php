@@ -35,6 +35,9 @@ class ProjectController extends BaseController
         ]);
 
         $paginator = $this->projectService->list($filters, $request->user());
+        $paginator->setCollection(
+            $paginator->getCollection()->map(fn ($project) => new ProjectResource($project))
+        );
 
         return self::paginated($paginator);
     }

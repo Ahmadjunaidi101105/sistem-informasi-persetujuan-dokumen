@@ -31,6 +31,7 @@ class ProjectApprovedNotification extends Notification implements ShouldQueue
             'message' => "Permohonan dengan kode {$this->project->project_code} telah disetujui.",
             'project_id' => $this->project->id,
             'project_code' => $this->project->project_code,
+            'link' => "/pemohon/projects/{$this->project->id}",
         ];
     }
 }

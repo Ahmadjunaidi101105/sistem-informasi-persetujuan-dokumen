@@ -22,7 +22,7 @@ class ProjectDocumentResource extends JsonResource
             'file_size_formatted' => $this->formatBytes($this->file_size),
             'mime_type' => $this->mime_type,
             'version' => $this->version,
-            'uploaded_by' => new UserResource($this->whenLoaded('uploadedBy')),
+            'uploaded_by' => new UserResource($this->whenLoaded('uploader')),
             'created_at' => $this->created_at,
         ];
     }

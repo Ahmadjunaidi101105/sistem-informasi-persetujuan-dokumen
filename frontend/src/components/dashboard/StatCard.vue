@@ -5,18 +5,22 @@ const props = defineProps({
   title: { type: String, required: true },
   value: { type: [Number, String], required: true },
   icon: { type: Object, required: true }, // Heroicon component
-  color: { type: String, default: 'blue' },
+  color: { type: String, default: 'brand' },
   trend: { type: Number, default: null }
 })
 
 const colorClass = computed(() => {
   const map = {
-    blue: 'text-blue-600 bg-blue-100',
+    brand: 'text-brand-700 bg-brand-100',
+    accent: 'text-accent-700 bg-accent-100',
+    sky: 'text-sky-700 bg-sky-100',
     amber: 'text-amber-600 bg-amber-100',
-    green: 'text-green-600 bg-green-100',
-    red: 'text-red-600 bg-red-100'
+    green: 'text-brand-700 bg-brand-100',
+    red: 'text-red-600 bg-red-100',
+    // Retained so existing call sites keep working after the palette change.
+    blue: 'text-sky-700 bg-sky-100',
   }
-  return map[props.color] || map.blue
+  return map[props.color] || map.brand
 })
 </script>
 

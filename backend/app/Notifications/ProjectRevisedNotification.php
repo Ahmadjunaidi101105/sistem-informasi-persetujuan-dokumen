@@ -31,6 +31,7 @@ class ProjectRevisedNotification extends Notification implements ShouldQueue
             'message' => "Permohonan dengan kode {$this->project->project_code} dikembalikan untuk direvisi.",
             'project_id' => $this->project->id,
             'project_code' => $this->project->project_code,
+            'link' => "/pemohon/projects/{$this->project->id}/edit",
         ];
     }
 }

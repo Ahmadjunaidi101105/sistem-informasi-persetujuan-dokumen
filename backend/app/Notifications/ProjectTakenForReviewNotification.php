@@ -31,6 +31,7 @@ class ProjectTakenForReviewNotification extends Notification implements ShouldQu
             'message' => "Permohonan dengan kode {$this->project->project_code} sedang dalam proses penilaian.",
             'project_id' => $this->project->id,
             'project_code' => $this->project->project_code,
+            'link' => "/pemohon/projects/{$this->project->id}",
         ];
     }
 }
