@@ -36,6 +36,7 @@ const filters = ref({
 })
 
 const reviewDialog = ref({ show: false, project: null })
+const exporting = ref(false)
 
 const columns = [
   { key: 'project_code', label: 'Kode Project', sortable: true },
@@ -101,6 +102,8 @@ const handleTakeReview = async () => {
 }
 
 const handleExportExcel = async () => {
+  if (exporting.value) return
+  exporting.value = true
   try {
     const blob = await exportsApi.exportExcel(filters.value)
     const url = window.URL.createObjectURL(new Blob([blob]))
@@ -109,8 +112,12 @@ const handleExportExcel = async () => {
     link.setAttribute('download', 'daftar_pengajuan.xlsx')
     document.body.appendChild(link)
     link.click()
+    link.remove()
+    window.URL.revokeObjectURL(url)
   } catch (e) {
     uiStore.showToast('Gagal mengekspor Excel', 'error')
+  } finally {
+    exporting.value = false
   }
 }
 </script>
@@ -123,9 +130,10 @@ const handleExportExcel = async () => {
         <p class="mt-2 text-sm text-gray-500">Daftar semua permohonan persetujuan dokumen dari klien.</p>
       </div>
       <div class="mt-4 sm:ml-4 sm:mt-0 flex space-x-3">
-        <button @click="handleExportExcel" class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-          <DocumentArrowDownIcon class="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-          Export Excel
+        <button @click="handleExportExcel" :disabled="exporting" class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60">
+          <DocumentArrowDownIcon v-if="!exporting" class="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
+          <span v-else class="-ml-0.5 mr-1.5 h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-brand-700" aria-hidden="true"></span>
+          {{ exporting ? 'Menyiapkan berkas...' : 'Export Excel' }}
         </button>
       </div>
     </div>

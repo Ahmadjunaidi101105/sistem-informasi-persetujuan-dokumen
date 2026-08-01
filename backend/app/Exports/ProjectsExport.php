@@ -6,13 +6,19 @@ use App\Models\Project;
 use App\Models\User;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ProjectsExport implements FromQuery, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
+/**
+ * Fixed column widths are declared instead of using ShouldAutoSize: auto-sizing
+ * measures every cell in the sheet, which dominated the export time on the full
+ * dataset (~9k rows). Explicit widths keep the output readable at a fraction of
+ * the cost.
+ */
+class ProjectsExport implements FromQuery, WithHeadings, WithMapping, WithStyles, WithColumnWidths
 {
     use Exportable;
 
@@ -63,15 +69,31 @@ class ProjectsExport implements FromQuery, WithHeadings, WithMapping, WithStyles
     {
         return [
             'No',
-            'Project Code',
-            'Title',
-            'Category',
+            'Kode Permohonan',
+            'Judul',
+            'Kategori',
             'Pemohon',
-            'Company',
+            'Perusahaan',
             'Status',
-            'Priority',
-            'Submitted At',
-            'Created At',
+            'Prioritas',
+            'Tanggal Diajukan',
+            'Tanggal Dibuat',
+        ];
+    }
+
+    public function columnWidths(): array
+    {
+        return [
+            'A' => 6,
+            'B' => 20,
+            'C' => 40,
+            'D' => 28,
+            'E' => 24,
+            'F' => 30,
+            'G' => 16,
+            'H' => 12,
+            'I' => 20,
+            'J' => 20,
         ];
     }
 

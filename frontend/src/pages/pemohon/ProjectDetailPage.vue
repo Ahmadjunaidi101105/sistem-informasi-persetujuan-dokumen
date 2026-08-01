@@ -30,6 +30,7 @@ const project = ref(null)
 const activeTab = ref('info') // info, docs, history
 
 const submitDialog = ref(false)
+const exportingPdf = ref(false)
 
 const loadProject = async () => {
   try {
@@ -88,6 +89,8 @@ const handleDownloadDocument = async (doc) => {
 }
 
 const handleExportPdf = async () => {
+  if (exportingPdf.value) return
+  exportingPdf.value = true
   try {
     const blob = await exportsApi.exportPdf(project.value.id)
     const url = window.URL.createObjectURL(new Blob([blob]))
@@ -96,8 +99,12 @@ const handleExportPdf = async () => {
     link.setAttribute('download', `project-${project.value.project_code}.pdf`)
     document.body.appendChild(link)
     link.click()
+    link.remove()
+    window.URL.revokeObjectURL(url)
   } catch (e) {
     uiStore.showToast('Gagal mengekspor PDF', 'error')
+  } finally {
+    exportingPdf.value = false
   }
 }
 
@@ -129,9 +136,10 @@ const tabs = [
           </div>
         </div>
         <div class="mt-4 flex sm:ml-4 sm:mt-0 space-x-3">
-          <button @click="handleExportPdf" type="button" class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-            <DocumentArrowDownIcon class="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-            Export PDF
+          <button @click="handleExportPdf" :disabled="exportingPdf" type="button" class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60">
+            <DocumentArrowDownIcon v-if="!exportingPdf" class="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
+            <span v-else class="-ml-0.5 mr-1.5 h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-brand-700" aria-hidden="true"></span>
+            {{ exportingPdf ? 'Menyiapkan...' : 'Export PDF' }}
           </button>
           
           <router-link v-if="isEditable" :to="`/pemohon/projects/${project.id}/edit`" class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
