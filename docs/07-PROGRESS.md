@@ -49,10 +49,10 @@
 - [x] Create ApiResponse helper/trait
 - [x] Create base Controller
 - [x] **Auth Endpoints**
-  - [ ] POST /auth/register
-  - [ ] POST /auth/login (with rate limiting)
-  - [ ] POST /auth/logout
-  - [ ] GET /auth/user
+  - [x] POST /auth/register
+  - [x] POST /auth/login (with rate limiting)
+  - [x] POST /auth/logout
+  - [x] GET /auth/user
 - [x] **Form Requests**
   - [x] RegisterRequest
   - [x] LoginRequest
