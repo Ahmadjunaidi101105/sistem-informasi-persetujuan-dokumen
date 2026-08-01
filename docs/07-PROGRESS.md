@@ -183,8 +183,8 @@
   - [x] DashboardPage.vue (stats + charts + recent)
   - [x] ProjectListPage.vue (filter, search, sort, pagination)
   - [x] ProjectCreatePage.vue (form + file upload)
-  - [ ] ProjectEditPage.vue
-  - [ ] ProjectDetailPage.vue (tabs: info, docs, history)
+  - [x] ProjectEditPage.vue
+  - [x] ProjectDetailPage.vue (tabs: info, docs, history)
 - [ ] **Penilai Pages**
   - [ ] DashboardPage.vue (stats + 3 charts + recent reviews)
   - [ ] SubmissionListPage.vue (all submitted projects)
