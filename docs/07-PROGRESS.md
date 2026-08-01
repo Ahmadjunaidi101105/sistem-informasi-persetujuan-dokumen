@@ -230,18 +230,19 @@
   - [ ] ExportTest
 - [ ] Run full test suite, ensure all pass
 
-### Phase 9: Docker & CI/CD
-- [ ] Dockerfile for PHP-FPM
-- [ ] Dockerfile for Node (frontend build)
-- [ ] Nginx config
-- [ ] docker-compose.yml (php, nginx, postgres, redis, node)
-- [ ] docker-compose up runs the full stack
-- [ ] .gitlab-ci.yml with stages:
-  - [ ] lint (phpcs, eslint)
-  - [ ] test (phpunit)
-  - [ ] build (frontend build)
 - [ ] Verify docker-compose up from scratch works
 
+### Phase 9: Docker & CI/CD
+- [x] Dockerfile for PHP-FPM
+- [x] Dockerfile for Node (frontend build)
+- [x] Nginx config
+- [x] docker-compose.yml (php, nginx, postgres, redis, node)
+- [x] docker-compose up runs the full stack
+- [x] .gitlab-ci.yml with stages:
+  - [x] lint (phpcs, eslint)
+  - [x] test (phpunit)
+  - [x] build (frontend build)
+- [x] Verify docker-compose up from scratch works
 ### Phase 10: Documentation & Git (Bobot: 5%)
 - [ ] README.md (comprehensive)
   - [ ] Project description

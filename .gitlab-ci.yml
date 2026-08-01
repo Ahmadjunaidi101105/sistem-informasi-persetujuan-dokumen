@@ -1,0 +1,64 @@
+stages:
+  - lint
+  - test
+  - build
+
+variables:
+  POSTGRES_DB: sipdok_test
+  POSTGRES_USER: runner
+  POSTGRES_PASSWORD: runner_password
+  POSTGRES_HOST_AUTH_METHOD: trust
+
+lint-php:
+  stage: lint
+  image: php:8.3-cli-alpine
+  script:
+    - apk add --no-cache git unzip
+    - cd backend
+    - curl -sS https://getcomposer.org/installer | php
+    - php composer.phar install --no-interaction --prefer-dist --optimize-autoloader
+    - ./vendor/bin/php-cs-fixer fix --dry-run --diff
+
+lint-frontend:
+  stage: lint
+  image: node:20-alpine
+  allow_failure: true
+  script:
+    - cd frontend
+    - npm ci
+    - npm run lint
+
+test-backend:
+  stage: test
+  image: php:8.3-cli-alpine
+  services:
+    - postgres:15-alpine
+  variables:
+    DB_CONNECTION: pgsql
+    DB_HOST: postgres
+    DB_PORT: 5432
+    DB_DATABASE: sipdok_test
+    DB_USERNAME: runner
+    DB_PASSWORD: runner_password
+  before_script:
+    - apk add --no-cache postgresql-dev unzip git
+    - docker-php-ext-install pdo pdo_pgsql
+    - cd backend
+    - curl -sS https://getcomposer.org/installer | php
+    - php composer.phar install --no-interaction --prefer-dist --optimize-autoloader
+    - cp .env.testing .env
+    - php artisan key:generate --env=testing
+  script:
+    - php artisan test
+
+build-frontend:
+  stage: build
+  image: node:20-alpine
+  script:
+    - cd frontend
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist/
+    expire_in: 1 week

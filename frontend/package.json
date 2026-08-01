@@ -19,8 +19,11 @@
     "vue3-apexcharts": "^1.11.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-vue": "^6.0.8",
+    "eslint": "^10.8.0",
+    "eslint-plugin-vue": "^10.10.0",
     "tailwindcss": "^4.3.3",
     "vite": "^8.2.0"
   }
