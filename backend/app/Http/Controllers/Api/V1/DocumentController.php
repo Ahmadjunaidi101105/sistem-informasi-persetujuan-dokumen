@@ -34,21 +34,27 @@ class DocumentController extends BaseController
         $fileName = Str::uuid() . '.' . $extension;
         $path = $file->storeAs('documents/' . $project->id, $fileName, 'local');
 
-        $latestVersion = $project->documents()->max('version') ?? 0;
+        try {
+            $latestVersion = $project->documents()->max('version') ?? 0;
 
-        $document = $project->documents()->create([
-            'original_name' => $originalName,
-            'file_name' => $fileName,
-            'file_path' => $path,
-            'mime_type' => $mimeType,
-            'file_size' => $fileSize,
-            'version' => $latestVersion + 1,
-            'uploaded_by_id' => $request->user()->id,
-        ]);
+            $document = $project->documents()->create([
+                'original_name' => $originalName,
+                'file_name' => $fileName,
+                'file_path' => $path,
+                'mime_type' => $mimeType,
+                'file_size' => $fileSize,
+                'version' => $latestVersion + 1,
+                'uploaded_by_id' => $request->user()->id,
+            ]);
 
-        $document->load('uploadedBy');
+            $document->load('uploadedBy');
 
-        return self::created(new ProjectDocumentResource($document), 'Dokumen berhasil diupload');
+            return self::created(new ProjectDocumentResource($document), 'Dokumen berhasil diupload');
+        } catch (\Exception $e) {
+            // Cleanup orphan file if db insert fails
+            Storage::disk('local')->delete($path);
+            throw $e;
+        }
     }
 
     public function download(ProjectDocument $document)

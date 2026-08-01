@@ -25,10 +25,32 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token')
-      window.location.href = '/login'
-    }
+    // Lazily import UI store to avoid Pinia not initialized error
+    import('@/stores/ui').then(({ useUiStore }) => {
+      const uiStore = useUiStore()
+
+      if (!error.response) {
+        uiStore.showToast('Tidak dapat terhubung ke server', 'error')
+        return
+      }
+
+      const status = error.response.status
+      
+      if (status === 401) {
+        localStorage.removeItem('token')
+        window.location.href = '/login'
+      } else if (status === 403) {
+        uiStore.showToast('Anda tidak memiliki akses', 'error')
+      } else if (status === 404) {
+        uiStore.showToast('Data tidak ditemukan', 'error')
+      } else if (status === 429) {
+        uiStore.showToast('Terlalu banyak request, coba lagi nanti', 'error')
+      } else if (status >= 500) {
+        uiStore.showToast('Terjadi kesalahan server', 'error')
+      }
+    }).catch(() => {})
+
+    // For 422, we return the error so the component can handle form validation
     return Promise.reject(error)
   }
 )

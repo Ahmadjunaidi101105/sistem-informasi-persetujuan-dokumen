@@ -24,17 +24,19 @@ class ReviewService
     public function takeReview(Project $project, User $reviewer): Project
     {
         return DB::transaction(function () use ($project, $reviewer) {
-            if (!$project->canTransitionTo(ProjectStatus::InReview)) {
+            $lockedProject = Project::where('id', $project->id)->lockForUpdate()->first();
+
+            if (!$lockedProject->canTransitionTo(ProjectStatus::InReview)) {
                 throw new \Exception('Invalid status transition');
             }
 
-            $oldStatus = $project->status;
+            $oldStatus = $lockedProject->status;
 
-            $project->status = ProjectStatus::InReview;
-            $project->current_reviewer_id = $reviewer->id;
-            $project->save();
+            $lockedProject->status = ProjectStatus::InReview;
+            $lockedProject->current_reviewer_id = $reviewer->id;
+            $lockedProject->save();
 
-            $project->reviews()->create([
+            $lockedProject->reviews()->create([
                 'reviewer_id' => $reviewer->id,
                 'status_from' => $oldStatus,
                 'status_to' => ProjectStatus::InReview,
@@ -42,9 +44,9 @@ class ReviewService
                 'reviewed_at' => now(),
             ]);
 
-            $project->user->notify(new ProjectTakenForReviewNotification($project));
+            $lockedProject->user->notify(new ProjectTakenForReviewNotification($lockedProject));
 
-            return $project;
+            return $lockedProject;
         });
     }
 
