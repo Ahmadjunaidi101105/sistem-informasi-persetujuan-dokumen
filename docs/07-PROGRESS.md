@@ -39,11 +39,11 @@
 - [x] Create Factory: ProjectDocumentFactory
 - [x] Create Factory: ProjectReviewFactory
 - [x] Create Factory: DocumentCategoryFactory
-- [ ] Create Seeder: RolesAndPermissionsSeeder
-- [ ] Create Seeder: DocumentCategorySeeder
-- [ ] Create Seeder: UserSeeder (1000 pemohon + 1000 penilai)
-- [ ] Create Seeder: ProjectSeeder (10000 projects with documents & reviews)
-- [ ] Run migrations & seeders, verify data integrity
+- [x] Create Seeder: RolesAndPermissionsSeeder
+- [x] Create Seeder: DocumentCategorySeeder
+- [x] Create Seeder: UserSeeder (1000 pemohon + 1000 penilai)
+- [x] Create Seeder: ProjectSeeder (10000 projects with documents & reviews)
+- [x] Run migrations & seeders, verify data integrity
 
 ### Phase 3: Backend API (Bobot: 25%)
 - [ ] Create ApiResponse helper/trait
