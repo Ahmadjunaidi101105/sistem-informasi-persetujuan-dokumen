@@ -181,8 +181,8 @@
   - [x] Register.vue
 - [x] **Pemohon Pages**
   - [x] DashboardPage.vue (stats + charts + recent)
-  - [ ] ProjectListPage.vue (filter, search, sort, pagination)
-  - [ ] ProjectCreatePage.vue (form + file upload)
+  - [x] ProjectListPage.vue (filter, search, sort, pagination)
+  - [x] ProjectCreatePage.vue (form + file upload)
   - [ ] ProjectEditPage.vue
   - [ ] ProjectDetailPage.vue (tabs: info, docs, history)
 - [ ] **Penilai Pages**
