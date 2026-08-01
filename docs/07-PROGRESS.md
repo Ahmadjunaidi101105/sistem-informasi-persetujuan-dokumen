@@ -7,8 +7,8 @@
 - [x] Initialize Vue 3 + Vite project (frontend/)
 - [x] Docker setup (docker-compose.yml with PHP, Nginx, PostgreSQL, Redis)
 - [x] Configure .env files
-- [ ] Git init, .gitignore, initial commit
-- [ ] Create branch: `main`, `develop`, `feature/*`
+- [x] Git init, .gitignore, initial commit
+- [x] Create branch: `main`, `develop`, `feature/*`
 - [x] Setup Makefile with convenience commands
 - [x] Configure CORS for SPA
 - [x] Install & configure Laravel Sanctum
