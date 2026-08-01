@@ -67,38 +67,38 @@
   - [x] ProjectReviewResource
   - [x] NotificationResource
   - [ ] DashboardResource
-- [ ] **Project Endpoints**
-  - [ ] GET /projects (with filtering, sorting, pagination)
-  - [ ] POST /projects
-  - [ ] GET /projects/{id}
-  - [ ] PUT /projects/{id}
-  - [ ] DELETE /projects/{id}
-- [ ] **Status Transition Endpoints**
-  - [ ] POST /projects/{id}/submit
-  - [ ] POST /projects/{id}/take-review
-  - [ ] POST /projects/{id}/approve
-  - [ ] POST /projects/{id}/revise
-  - [ ] POST /projects/{id}/reject
-- [ ] **Document Endpoints**
-  - [ ] POST /projects/{id}/documents
-  - [ ] GET /projects/{id}/documents
-  - [ ] GET /documents/{id}/download
-  - [ ] DELETE /documents/{id}
-- [ ] **Review/History Endpoints**
-  - [ ] GET /projects/{id}/reviews
-  - [ ] GET /reviews (all reviews for Penilai)
-- [ ] **Notification Endpoints**
-  - [ ] GET /notifications
-  - [ ] POST /notifications/{id}/read
-  - [ ] POST /notifications/read-all
-- [ ] **Dashboard Endpoints**
-  - [ ] GET /dashboard/pemohon
-  - [ ] GET /dashboard/penilai
-- [ ] **Master Data Endpoints**
-  - [ ] GET /document-categories
-- [ ] **Export Endpoints**
-  - [ ] GET /export/projects (Excel)
-  - [ ] GET /export/projects/{id}/pdf
+- [x] **Project Endpoints**
+  - [x] GET /projects (with filtering, sorting, pagination)
+  - [x] POST /projects
+  - [x] GET /projects/{id}
+  - [x] PUT /projects/{id}
+  - [x] DELETE /projects/{id}
+- [x] **Status Transition Endpoints**
+  - [x] POST /projects/{id}/submit
+  - [x] POST /projects/{id}/take-review
+  - [x] POST /projects/{id}/approve
+  - [x] POST /projects/{id}/revise
+  - [x] POST /projects/{id}/reject
+- [x] **Document Endpoints**
+  - [x] POST /projects/{id}/documents
+  - [x] GET /projects/{id}/documents
+  - [x] GET /documents/{id}/download
+  - [x] DELETE /documents/{id}
+- [x] **Review/History Endpoints**
+  - [x] GET /projects/{id}/reviews
+  - [x] GET /reviews (all reviews for Penilai)
+- [x] **Notification Endpoints**
+  - [x] GET /notifications
+  - [x] POST /notifications/{id}/read
+  - [x] POST /notifications/read-all
+- [x] **Dashboard Endpoints**
+  - [x] GET /dashboard/pemohon
+  - [x] GET /dashboard/penilai
+- [x] **Master Data Endpoints**
+  - [x] GET /document-categories
+- [x] **Export Endpoints**
+  - [x] GET /export/projects (Excel)
+  - [x] GET /export/projects/{id}/pdf
 - [x] **Services**
   - [x] ProjectService
   - [x] ReviewService
