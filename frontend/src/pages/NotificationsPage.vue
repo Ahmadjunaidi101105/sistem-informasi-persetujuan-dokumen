@@ -65,7 +65,7 @@ const navigateToLink = (link, notifId, isRead) => {
         <li 
           v-for="notif in notificationStore.notifications" 
           :key="notif.id" 
-          :class="[!notif.read_at ? 'bg-blue-50/50 hover:bg-blue-50' : 'bg-white hover:bg-gray-50', 'transition duration-150 cursor-pointer']"
+          :class="[!notif.read_at ? 'bg-brand-50/50 hover:bg-brand-50' : 'bg-white hover:bg-gray-50', 'transition duration-150 cursor-pointer']"
           @click="navigateToLink(notif.data.link, notif.id, !!notif.read_at)"
         >
           <div class="px-4 py-6 sm:px-6">
@@ -86,8 +86,8 @@ const navigateToLink = (link, notifId, isRead) => {
                 </p>
               </div>
               <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0" v-if="!notif.read_at">
-                <button @click.stop="handleMarkAsRead(notif.id)" class="flex items-center text-blue-600 hover:text-blue-800 focus:outline-none">
-                  <span class="h-2 w-2 bg-blue-600 rounded-full inline-block mr-2"></span>
+                <button @click.stop="handleMarkAsRead(notif.id)" class="flex items-center text-brand-700 hover:text-brand-800 focus:outline-none">
+                  <span class="h-2 w-2 bg-brand-700 rounded-full inline-block mr-2"></span>
                   Tandai dibaca
                 </button>
               </div>

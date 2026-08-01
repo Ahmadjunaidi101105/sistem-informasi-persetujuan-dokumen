@@ -2,6 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const routes = [
+  // Public landing
+  {
+    path: '/',
+    name: 'landing',
+    component: () => import('@/pages/LandingPage.vue'),
+    meta: { public: true },
+  },
   // Auth (public)
   {
     path: '/login',
@@ -40,12 +47,21 @@ const routes = [
   },
   // Shared
   { path: '/notifications', name: 'notifications', component: () => import('@/pages/NotificationsPage.vue'), meta: { requiresAuth: true } },
-  // Redirects
-  { path: '/', redirect: '/login' },
-  { path: '/:pathMatch(.*)*', redirect: '/login' },
+  // Unknown routes fall back to the public landing page
+  { path: '/:pathMatch(.*)*', redirect: '/' },
 ]
 
-const router = createRouter({ history: createWebHistory(), routes })
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+  // Anchor links on the landing page must scroll to their section, while
+  // ordinary navigation should always start at the top.
+  scrollBehavior(to, _from, savedPosition) {
+    if (savedPosition) return savedPosition
+    if (to.hash) return { el: to.hash, behavior: 'smooth' }
+    return { top: 0 }
+  },
+})
 
 // Navigation guards
 let authChecked = false

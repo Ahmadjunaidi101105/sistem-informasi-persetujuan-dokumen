@@ -172,7 +172,7 @@ const handleConfirm = async () => {
                 <div class="sm:col-span-1">
                   <dt class="text-sm font-medium text-gray-500">Prioritas & Revisi</dt>
                   <dd class="mt-1 text-sm text-gray-900">
-                    {{ PRIORITY_MAP[project.priority] || project.priority }} 
+                    {{ PRIORITY_MAP[project.priority]?.label || project.priority }}
                     <span class="text-gray-400 mx-1">•</span> 
                     Revisi: {{ project.revision_count }} kali
                   </dd>
@@ -200,7 +200,7 @@ const handleConfirm = async () => {
                   </div>
                 </div>
                 <div class="ml-4 flex-shrink-0">
-                  <button @click="handleDownloadDocument(doc)" type="button" class="font-medium text-blue-600 hover:text-blue-500 bg-blue-50 px-3 py-1.5 rounded-md">
+                  <button @click="handleDownloadDocument(doc)" type="button" class="font-medium text-brand-700 hover:text-brand-500 bg-brand-50 px-3 py-1.5 rounded-md">
                     Unduh
                   </button>
                 </div>
@@ -221,7 +221,7 @@ const handleConfirm = async () => {
               <div>
                 <label for="notes" class="block text-sm font-medium leading-6 text-gray-900">Catatan Penilaian</label>
                 <div class="mt-2">
-                  <textarea id="notes" v-model="form.notes" rows="4" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6" placeholder="Masukkan detail revisi atau alasan penolakan..."></textarea>
+                  <textarea id="notes" v-model="form.notes" rows="4" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-700 sm:text-sm sm:leading-6" placeholder="Masukkan detail revisi atau alasan penolakan..."></textarea>
                 </div>
                 <p class="mt-2 text-sm text-gray-500">Catatan wajib diisi (minimal 10 karakter) jika memilih Minta Revisi atau Tolak.</p>
               </div>

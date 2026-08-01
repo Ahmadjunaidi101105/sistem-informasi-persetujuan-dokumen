@@ -3,31 +3,47 @@ import { computed } from 'vue'
 import VueApexCharts from 'vue3-apexcharts'
 
 const props = defineProps({
+  /** [{ name: string, count: number }] as returned by the dashboard endpoint. */
   data: {
-    type: Array, // Array of { name: string, count: number }
-    default: () => []
-  }
+    type: Array,
+    default: () => [],
+  },
 })
 
-const chartOptions = computed(() => {
-  return {
-    chart: { type: 'bar', toolbar: { show: false } },
-    plotOptions: { bar: { horizontal: true, borderRadius: 4, barHeight: '50%' } },
-    colors: ['#8b5cf6'], // purple
-    dataLabels: { enabled: true, style: { colors: ['#fff'] } },
-    xaxis: { categories: props.data.map(item => item.name) },
-    grid: { xaxis: { lines: { show: false } }, yaxis: { lines: { show: false } } }
-  }
-})
+// Show the busiest categories first so the chart stays readable.
+const rows = computed(() =>
+  [...props.data]
+    .map((item) => ({ name: item.name, count: Number(item.count) || 0 }))
+    .sort((a, b) => b.count - a.count)
+)
 
-const chartSeries = computed(() => {
-  return [{ name: 'Projects', data: props.data.map(item => item.count) }]
-})
+const hasData = computed(() => rows.value.some((r) => r.count > 0))
+
+const chartOptions = computed(() => ({
+  chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'inherit' },
+  plotOptions: { bar: { horizontal: true, borderRadius: 5, barHeight: '60%', distributed: false } },
+  colors: ['#039855'],
+  dataLabels: { enabled: false },
+  grid: { borderColor: '#f1f2f3', xaxis: { lines: { show: true } }, yaxis: { lines: { show: false } } },
+  tooltip: { y: { formatter: (v) => `${v} permohonan` } },
+  xaxis: {
+    categories: rows.value.map((r) => r.name),
+    labels: { style: { colors: '#6b7280', fontSize: '12px' } },
+    axisBorder: { show: false },
+    axisTicks: { show: false },
+  },
+  yaxis: { labels: { style: { colors: '#6b7280', fontSize: '12px' } } },
+}))
+
+const chartSeries = computed(() => [{ name: 'Permohonan', data: rows.value.map((r) => r.count) }])
 </script>
 
 <template>
-  <div class="bg-white rounded-lg shadow p-4">
-    <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">By Category</h3>
-    <VueApexCharts type="bar" height="300" :options="chartOptions" :series="chartSeries" />
+  <div class="rounded-xl bg-white p-5 shadow ring-1 ring-ink-900/5">
+    <h3 class="mb-4 text-base font-bold text-ink-900">Permohonan per Kategori</h3>
+    <VueApexCharts v-if="hasData" type="bar" height="300" :options="chartOptions" :series="chartSeries" />
+    <p v-else class="flex h-[300px] items-center justify-center text-sm text-ink-700/60">
+      Belum ada data untuk ditampilkan.
+    </p>
   </div>
 </template>

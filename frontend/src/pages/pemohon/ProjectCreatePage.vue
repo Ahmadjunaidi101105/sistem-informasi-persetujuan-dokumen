@@ -8,6 +8,7 @@ import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import FileUpload from '@/components/common/FileUpload.vue'
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
 import { useUiStore } from '@/stores/ui'
+import { PRIORITY_OPTIONS } from '@/utils/constants'
 import { ArrowLeftIcon } from '@heroicons/vue/20/solid'
 
 const router = useRouter()
@@ -100,7 +101,7 @@ const saveProject = async (submitImmediately = false) => {
             <div class="sm:col-span-4">
               <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Judul Permohonan <span class="text-red-500">*</span></label>
               <div class="mt-2">
-                <input type="text" id="title" v-model="form.title" required :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset sm:text-sm sm:leading-6', errors.title ? 'ring-red-300 focus:ring-red-500' : 'ring-gray-300 focus:ring-blue-600']" />
+                <input type="text" id="title" v-model="form.title" required :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset sm:text-sm sm:leading-6', errors.title ? 'ring-red-300 focus:ring-red-500' : 'ring-gray-300 focus:ring-brand-700']" />
                 <p v-if="errors.title" class="mt-2 text-sm text-red-600">{{ errors.title[0] }}</p>
               </div>
             </div>
@@ -108,7 +109,7 @@ const saveProject = async (submitImmediately = false) => {
             <div class="sm:col-span-3">
               <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Kategori Dokumen <span class="text-red-500">*</span></label>
               <div class="mt-2">
-                <select id="category" v-model="form.document_category_id" required :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset sm:text-sm sm:leading-6', errors.document_category_id ? 'ring-red-300 focus:ring-red-500' : 'ring-gray-300 focus:ring-blue-600']">
+                <select id="category" v-model="form.document_category_id" required :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset sm:text-sm sm:leading-6', errors.document_category_id ? 'ring-red-300 focus:ring-red-500' : 'ring-gray-300 focus:ring-brand-700']">
                   <option value="" disabled>Pilih Kategori</option>
                   <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                 </select>
@@ -119,10 +120,8 @@ const saveProject = async (submitImmediately = false) => {
             <div class="sm:col-span-3">
               <label for="priority" class="block text-sm font-medium leading-6 text-gray-900">Prioritas</label>
               <div class="mt-2">
-                <select id="priority" v-model="form.priority" :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset sm:text-sm sm:leading-6', errors.priority ? 'ring-red-300 focus:ring-red-500' : 'ring-gray-300 focus:ring-blue-600']">
-                  <option value="normal">Normal</option>
-                  <option value="high">High</option>
-                  <option value="urgent">Urgent</option>
+                <select id="priority" v-model="form.priority" :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset sm:text-sm sm:leading-6', errors.priority ? 'ring-red-300 focus:ring-red-500' : 'ring-gray-300 focus:ring-brand-700']">
+                  <option v-for="opt in PRIORITY_OPTIONS" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
                 </select>
                 <p v-if="errors.priority" class="mt-2 text-sm text-red-600">{{ errors.priority[0] }}</p>
               </div>
@@ -131,7 +130,7 @@ const saveProject = async (submitImmediately = false) => {
             <div class="sm:col-span-6">
               <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Deskripsi</label>
               <div class="mt-2">
-                <textarea id="description" v-model="form.description" rows="3" class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"></textarea>
+                <textarea id="description" v-model="form.description" rows="3" class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-700 sm:text-sm sm:leading-6"></textarea>
                 <p v-if="errors.description" class="mt-2 text-sm text-red-600">{{ errors.description[0] }}</p>
               </div>
             </div>
@@ -139,7 +138,7 @@ const saveProject = async (submitImmediately = false) => {
             <div class="sm:col-span-6">
               <label for="notes" class="block text-sm font-medium leading-6 text-gray-900">Catatan Tambahan</label>
               <div class="mt-2">
-                <textarea id="notes" v-model="form.notes" rows="2" class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"></textarea>
+                <textarea id="notes" v-model="form.notes" rows="2" class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-700 sm:text-sm sm:leading-6"></textarea>
                 <p v-if="errors.notes" class="mt-2 text-sm text-red-600">{{ errors.notes[0] }}</p>
               </div>
             </div>
@@ -168,10 +167,10 @@ const saveProject = async (submitImmediately = false) => {
           <button type="button" @click="router.back()" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
             Batal
           </button>
-          <button type="button" @click="saveProject(false)" :disabled="loading" class="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-blue-600 shadow-sm ring-1 ring-inset ring-blue-300 hover:bg-blue-50 disabled:opacity-50">
+          <button type="button" @click="saveProject(false)" :disabled="loading" class="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-brand-700 shadow-sm ring-1 ring-inset ring-brand-300 hover:bg-brand-50 disabled:opacity-50">
             Simpan Draft
           </button>
-          <button type="button" @click="saveProject(true)" :disabled="loading" class="inline-flex justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:opacity-50">
+          <button type="button" @click="saveProject(true)" :disabled="loading" class="inline-flex justify-center rounded-md bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:opacity-50">
             <LoadingSpinner v-if="loading" size="sm" class="mr-2 text-white" />
             Submit Permohonan
           </button>

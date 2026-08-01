@@ -134,12 +134,12 @@ const handleExportExcel = async () => {
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <SearchInput v-model="filters.search" placeholder="Cari kode, judul, atau perusahaan..." />
         
-        <select v-model="filters.status" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-blue-600 sm:text-sm sm:leading-6">
+        <select v-model="filters.status" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-brand-700 sm:text-sm sm:leading-6">
           <option value="">Semua Status</option>
           <option v-for="(config, key) in STATUS_MAP" :key="key" :value="key" v-show="key !== 'draft'">{{ config.label }}</option>
         </select>
 
-        <select v-model="filters.category_id" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-blue-600 sm:text-sm sm:leading-6">
+        <select v-model="filters.category_id" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-brand-700 sm:text-sm sm:leading-6">
           <option value="">Semua Kategori</option>
           <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
         </select>
@@ -173,7 +173,7 @@ const handleExportExcel = async () => {
       <template #col-actions="{ row }">
         <Menu as="div" class="relative inline-block text-left">
           <div>
-            <MenuButton class="flex items-center rounded-full bg-gray-100 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+            <MenuButton class="flex items-center rounded-full bg-gray-100 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-gray-100">
               <span class="sr-only">Open options</span>
               <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
             </MenuButton>
@@ -187,7 +187,7 @@ const handleExportExcel = async () => {
                 </MenuItem>
                 
                 <MenuItem v-slot="{ active }" v-if="row.status === 'submitted' && !row.current_reviewer_id">
-                  <button @click.prevent="confirmTakeReview(row)" :class="[active ? 'bg-blue-50 text-blue-900' : 'text-blue-700', 'block w-full px-4 py-2 text-left text-sm']">Ambil Review</button>
+                  <button @click.prevent="confirmTakeReview(row)" :class="[active ? 'bg-brand-50 text-brand-900' : 'text-brand-800', 'block w-full px-4 py-2 text-left text-sm']">Ambil Review</button>
                 </MenuItem>
 
                 <MenuItem v-slot="{ active }" v-if="row.status === 'in_review' && row.current_reviewer_id === authStore.user?.id">

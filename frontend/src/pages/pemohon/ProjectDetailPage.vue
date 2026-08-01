@@ -139,7 +139,7 @@ const tabs = [
             Edit
           </router-link>
 
-          <button v-if="isEditable" @click="submitDialog = true" type="button" class="inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+          <button v-if="isEditable" @click="submitDialog = true" type="button" class="inline-flex items-center rounded-md bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
             <PaperAirplaneIcon class="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
             Submit
           </button>
@@ -150,7 +150,7 @@ const tabs = [
       <div class="mb-6">
         <div class="sm:hidden">
           <label for="tabs" class="sr-only">Select a tab</label>
-          <select id="tabs" name="tabs" v-model="activeTab" class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm">
+          <select id="tabs" name="tabs" v-model="activeTab" class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-brand-500 focus:outline-none focus:ring-brand-500 sm:text-sm">
             <option v-for="tab in tabs" :key="tab.id" :value="tab.id">{{ tab.name }}</option>
           </select>
         </div>
@@ -161,10 +161,10 @@ const tabs = [
                 v-for="tab in tabs" 
                 :key="tab.id" 
                 @click="activeTab = tab.id"
-                :class="[activeTab === tab.id ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 'whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium']"
+                :class="[activeTab === tab.id ? 'border-brand-500 text-brand-700' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 'whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium']"
               >
                 {{ tab.name }}
-                <span v-if="tab.id === 'docs'" :class="[activeTab === tab.id ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-900', 'ml-2 rounded-full py-0.5 px-2.5 text-xs font-medium inline-block']">
+                <span v-if="tab.id === 'docs'" :class="[activeTab === tab.id ? 'bg-brand-100 text-brand-700' : 'bg-gray-100 text-gray-900', 'ml-2 rounded-full py-0.5 px-2.5 text-xs font-medium inline-block']">
                   {{ project.documents?.length || 0 }}
                 </span>
               </button>
@@ -191,7 +191,7 @@ const tabs = [
             </div>
             <div class="sm:col-span-1">
               <dt class="text-sm font-medium text-gray-500">Prioritas</dt>
-              <dd class="mt-1 text-sm text-gray-900">{{ PRIORITY_MAP[project.priority] || project.priority }}</dd>
+              <dd class="mt-1 text-sm text-gray-900">{{ PRIORITY_MAP[project.priority]?.label || project.priority }}</dd>
             </div>
             <div class="sm:col-span-1">
               <dt class="text-sm font-medium text-gray-500">Pemohon</dt>
@@ -224,7 +224,7 @@ const tabs = [
             <h3 class="text-base font-semibold leading-7 text-gray-900">Dokumen Lampiran</h3>
             <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Daftar dokumen yang dilampirkan pada permohonan ini.</p>
           </div>
-          <router-link v-if="isEditable" :to="`/pemohon/projects/${project.id}/edit`" class="text-sm font-medium text-blue-600 hover:text-blue-500">
+          <router-link v-if="isEditable" :to="`/pemohon/projects/${project.id}/edit`" class="text-sm font-medium text-brand-700 hover:text-brand-500">
             Upload Baru
           </router-link>
         </div>
@@ -238,7 +238,7 @@ const tabs = [
               </div>
             </div>
             <div class="ml-4 flex-shrink-0">
-              <button @click="handleDownloadDocument(doc)" type="button" class="font-medium text-blue-600 hover:text-blue-500 bg-blue-50 px-3 py-1.5 rounded-md">
+              <button @click="handleDownloadDocument(doc)" type="button" class="font-medium text-brand-700 hover:text-brand-500 bg-brand-50 px-3 py-1.5 rounded-md">
                 Download
               </button>
             </div>

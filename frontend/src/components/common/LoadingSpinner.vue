@@ -25,7 +25,7 @@ const sizeClasses = computed(() => {
 <template>
   <div class="flex flex-col items-center justify-center space-y-2">
     <svg 
-      class="animate-spin text-blue-600" 
+      class="animate-spin text-brand-700" 
       :class="sizeClasses"
       xmlns="http://www.w3.org/2000/svg" 
       fill="none" 

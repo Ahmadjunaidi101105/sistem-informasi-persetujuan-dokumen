@@ -61,13 +61,13 @@ const removeExisting = (id) => {
       @click="fileInput.click()"
       :class="[
         'mt-2 flex justify-center rounded-lg border border-dashed px-6 py-10 transition-colors cursor-pointer',
-        isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-900/25 bg-white hover:bg-gray-50'
+        isDragging ? 'border-brand-500 bg-brand-50' : 'border-gray-900/25 bg-white hover:bg-gray-50'
       ]"
     >
       <div class="text-center">
         <ArrowUpTrayIcon class="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
         <div class="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
-          <label class="relative cursor-pointer rounded-md bg-transparent font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500">
+          <label class="relative cursor-pointer rounded-md bg-transparent font-semibold text-brand-700 focus-within:outline-none focus-within:ring-2 focus-within:ring-brand-700 focus-within:ring-offset-2 hover:text-brand-500">
             <span>Upload a file</span>
             <input 
               ref="fileInput"
@@ -99,18 +99,18 @@ const removeExisting = (id) => {
           </div>
         </div>
         <div class="ml-4 flex-shrink-0 flex space-x-2">
-          <a :href="file.download_url" target="_blank" class="font-medium text-blue-600 hover:text-blue-500">Download</a>
+          <a :href="file.download_url" target="_blank" class="font-medium text-brand-700 hover:text-brand-500">Download</a>
           <button @click.prevent="removeExisting(file.id)" type="button" class="font-medium text-red-600 hover:text-red-500">Remove</button>
         </div>
       </li>
 
       <!-- New Selected Files -->
-      <li v-for="(file, index) in selectedFiles" :key="'new-'+index" class="flex items-center justify-between py-3 pl-3 pr-4 text-sm leading-6 bg-blue-50">
+      <li v-for="(file, index) in selectedFiles" :key="'new-'+index" class="flex items-center justify-between py-3 pl-3 pr-4 text-sm leading-6 bg-brand-50">
         <div class="flex w-0 flex-1 items-center">
-          <DocumentIcon class="h-5 w-5 flex-shrink-0 text-blue-400" aria-hidden="true" />
+          <DocumentIcon class="h-5 w-5 flex-shrink-0 text-brand-400" aria-hidden="true" />
           <div class="ml-4 flex min-w-0 flex-1 gap-2">
-            <span class="truncate font-medium text-blue-700">{{ file.name }}</span>
-            <span class="flex-shrink-0 text-blue-500">{{ formatFileSize(file.size) }}</span>
+            <span class="truncate font-medium text-brand-800">{{ file.name }}</span>
+            <span class="flex-shrink-0 text-brand-500">{{ formatFileSize(file.size) }}</span>
           </div>
         </div>
         <div class="ml-4 flex-shrink-0">

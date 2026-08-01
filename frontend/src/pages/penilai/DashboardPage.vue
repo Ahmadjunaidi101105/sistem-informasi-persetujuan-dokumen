@@ -35,8 +35,8 @@ onMounted(async () => {
 
 const donutOptions = {
   chart: { type: 'donut' },
-  labels: ['Approved', 'Rejected', 'Revised'],
-  colors: ['#10b981', '#ef4444', '#f59e0b'],
+  labels: ['Disetujui', 'Ditolak', 'Perlu Revisi'],
+  colors: ['#039855', '#ef4444', '#f7941d'],
   dataLabels: { enabled: true, formatter: (val) => val.toFixed(1) + '%' },
   plotOptions: { pie: { donut: { size: '65%' } } },
   legend: { position: 'bottom' }
@@ -53,10 +53,10 @@ const donutOptions = {
       
       <!-- Stats -->
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
-        <StatCard title="Total Pengajuan" :value="dashboardData.stats.total_submissions" :icon="FolderIcon" color="blue" />
-        <StatCard title="Menunggu Review" :value="dashboardData.stats.pending_review" :icon="ClockIcon" color="amber" />
-        <StatCard title="Sedang Direview" :value="dashboardData.stats.in_review" :icon="PlayIcon" color="blue" />
-        <StatCard title="Disetujui" :value="dashboardData.stats.approved" :icon="CheckCircleIcon" color="green" />
+        <StatCard title="Total Pengajuan" :value="dashboardData.stats.total_submissions" :icon="FolderIcon" color="brand" />
+        <StatCard title="Menunggu Dinilai" :value="dashboardData.stats.pending_review" :icon="ClockIcon" color="sky" />
+        <StatCard title="Sedang Dinilai" :value="dashboardData.stats.in_review" :icon="PlayIcon" color="amber" />
+        <StatCard title="Disetujui" :value="dashboardData.stats.approved" :icon="CheckCircleIcon" color="brand" />
         <StatCard title="Ditolak" :value="dashboardData.stats.rejected" :icon="XCircleIcon" color="red" />
       </div>
 
@@ -64,7 +64,7 @@ const donutOptions = {
       <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
         
         <div class="bg-white rounded-lg shadow p-4 flex flex-col items-center justify-center">
-          <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4 self-start w-full">Approval Rate</h3>
+          <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4 self-start w-full">Tingkat Persetujuan</h3>
           <VueApexCharts 
             type="donut" 
             width="100%"
@@ -79,7 +79,7 @@ const donutOptions = {
         </div>
 
         <div class="lg:col-span-1">
-           <TrendChart :data="dashboardData.monthly_trends" />
+           <TrendChart :data="dashboardData.monthly_trends" title="Tren Keputusan Bulanan" />
         </div>
 
         <div class="lg:col-span-1">
@@ -92,7 +92,7 @@ const donutOptions = {
       <div class="bg-white shadow rounded-lg">
         <div class="px-4 py-5 sm:px-6 flex justify-between items-center border-b border-gray-200">
           <h3 class="text-lg leading-6 font-medium text-gray-900">Sedang Direview</h3>
-          <router-link to="/penilai/submissions" class="text-sm font-medium text-blue-600 hover:text-blue-500">
+          <router-link to="/penilai/submissions" class="text-sm font-medium text-brand-700 hover:text-brand-500">
             Lihat Semua Pengajuan &rarr;
           </router-link>
         </div>

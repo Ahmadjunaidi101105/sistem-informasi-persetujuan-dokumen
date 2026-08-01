@@ -36,7 +36,7 @@ const iconClass = computed(() => {
   switch (props.type) {
     case 'danger': return 'text-red-600 bg-red-100'
     case 'warning': return 'text-amber-600 bg-amber-100'
-    case 'info': return 'text-blue-600 bg-blue-100'
+    case 'info': return 'text-brand-700 bg-brand-100'
     default: return 'text-gray-600 bg-gray-100'
   }
 })
@@ -45,8 +45,8 @@ const buttonClass = computed(() => {
   switch (props.type) {
     case 'danger': return 'bg-red-600 hover:bg-red-500 focus-visible:outline-red-600'
     case 'warning': return 'bg-amber-600 hover:bg-amber-500 focus-visible:outline-amber-600'
-    case 'info': return 'bg-blue-600 hover:bg-blue-500 focus-visible:outline-blue-600'
-    default: return 'bg-blue-600 hover:bg-blue-500 focus-visible:outline-blue-600'
+    case 'info': return 'bg-brand-700 hover:bg-brand-500 focus-visible:outline-brand-700'
+    default: return 'bg-brand-700 hover:bg-brand-500 focus-visible:outline-brand-700'
   }
 })
 
