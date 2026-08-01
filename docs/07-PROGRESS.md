@@ -34,10 +34,11 @@
 - [x] Create Model: ProjectReview
 - [x] Create Enum: ProjectStatus
 - [x] Create Enum: ProjectPriority
-- [ ] Create Factory: UserFactory
-- [ ] Create Factory: ProjectFactory
-- [ ] Create Factory: ProjectDocumentFactory
-- [ ] Create Factory: ProjectReviewFactory
+- [x] Create Factory: UserFactory
+- [x] Create Factory: ProjectFactory
+- [x] Create Factory: ProjectDocumentFactory
+- [x] Create Factory: ProjectReviewFactory
+- [x] Create Factory: DocumentCategoryFactory
 - [ ] Create Seeder: RolesAndPermissionsSeeder
 - [ ] Create Seeder: DocumentCategorySeeder
 - [ ] Create Seeder: UserSeeder (1000 pemohon + 1000 penilai)
