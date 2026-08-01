@@ -141,9 +141,12 @@
   - [x] notifications.js
 - [x] Setup Utils (formatters, constants)
 - [x] Buat Layout Components:
-  - [ ] AuthLayout.vue
-  - [ ] DashboardLayout.vue
+  - [x] AuthLayout.vue
+  - [x] DashboardLayout.vue
 - [x] **Common Components**
+  - [x] Sidebar.vue
+  - [x] Navbar.vue (with NotificationBell)
+  - [x] DataTable.vue
   - [x] LoadingSpinner.vue
   - [x] StatusBadge.vue
   - [x] ConfirmDialog.vue
