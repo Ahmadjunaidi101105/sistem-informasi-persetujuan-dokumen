@@ -244,16 +244,16 @@
   - [x] build (frontend build)
 - [x] Verify docker-compose up from scratch works
 ### Phase 10: Documentation & Git (Bobot: 5%)
-- [ ] README.md (comprehensive)
-  - [ ] Project description
-  - [ ] Tech stack
-  - [ ] Prerequisites
-  - [ ] Installation steps
-  - [ ] Docker setup
-  - [ ] Seeder commands
-  - [ ] API documentation link
-  - [ ] Test credentials
-  - [ ] Screenshots
+- [x] README.md (comprehensive)
+  - [x] Project description
+  - [x] Tech stack
+  - [x] Prerequisites
+  - [x] Installation steps
+  - [x] Docker setup
+  - [x] Seeder commands
+  - [x] API documentation link
+  - [x] Test credentials
+  - [x] Screenshots
 - [ ] API Documentation (Postman collection or API.md)
 - [ ] Git history review
   - [ ] Meaningful commit messages
