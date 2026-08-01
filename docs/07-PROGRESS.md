@@ -46,20 +46,20 @@
 - [x] Run migrations & seeders, verify data integrity
 
 ### Phase 3: Backend API (Bobot: 25%)
-- [ ] Create ApiResponse helper/trait
-- [ ] Create base Controller
-- [ ] **Auth Endpoints**
+- [x] Create ApiResponse helper/trait
+- [x] Create base Controller
+- [x] **Auth Endpoints**
   - [ ] POST /auth/register
   - [ ] POST /auth/login (with rate limiting)
   - [ ] POST /auth/logout
   - [ ] GET /auth/user
-- [ ] **Form Requests**
-  - [ ] RegisterRequest
-  - [ ] LoginRequest
-  - [ ] StoreProjectRequest
-  - [ ] UpdateProjectRequest
-  - [ ] UploadDocumentRequest
-  - [ ] ReviewActionRequest
+- [x] **Form Requests**
+  - [x] RegisterRequest
+  - [x] LoginRequest
+  - [x] StoreProjectRequest
+  - [x] UpdateProjectRequest
+  - [x] UploadDocumentRequest
+  - [x] ReviewActionRequest
 - [ ] **API Resources**
   - [ ] UserResource
   - [ ] ProjectResource / ProjectCollection
@@ -110,7 +110,7 @@
 - [ ] **Middleware**
   - [ ] EnsureRole middleware (or use Spatie middleware)
   - [ ] Rate limiting config
-- [ ] Route definitions (api.php)
+- [x] Route definitions (api.php)
 
 ### Phase 4: Performance Optimization (Bobot: 20%)
 - [ ] Eager loading di semua query yang butuh relasi
