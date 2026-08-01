@@ -188,10 +188,10 @@
 - [x] **Penilai Pages**
   - [x] DashboardPage.vue (stats + 3 charts + recent reviews)
   - [x] SubmissionListPage.vue (all submitted projects)
-  - [ ] ReviewPage.vue (review form with approve/revise/reject)
-  - [ ] ReviewHistoryPage.vue
-- [ ] **Shared Pages**
-  - [ ] NotificationsPage.vue
+  - [x] ReviewPage.vue (review form with approve/revise/reject)
+  - [x] ReviewHistoryPage.vue
+- [x] **Shared Pages**
+  - [x] NotificationsPage.vue
 - [ ] **Router**
   - [ ] Route definitions with guards & role checks
   - [ ] Lazy loading (dynamic imports)
