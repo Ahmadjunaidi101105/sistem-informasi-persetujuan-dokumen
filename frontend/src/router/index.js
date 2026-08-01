@@ -51,6 +51,9 @@ const router = createRouter({ history: createWebHistory(), routes })
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
 
+  // Pastikan data user diambil dari server jika token ada tapi state user kosong (misal saat refresh)
+  await authStore.checkAuth()
+
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     return next({ name: 'login' })
   }
