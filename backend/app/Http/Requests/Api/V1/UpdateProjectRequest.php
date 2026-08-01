@@ -8,18 +8,14 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateProjectRequest extends FormRequest
 {
-    public function authorize(): bool
+    /**
+     * Authorization is delegated to ProjectPolicy::update() so the specific
+     * denial reason reaches the client instead of a generic 403.
+     */
+    public function authorize(): \Illuminate\Auth\Access\Response
     {
-        $project = $this->route('project');
-
-        if (!$this->user() || !$project) {
-            return false;
-        }
-
-        $isOwner = $project->user_id === $this->user()->id;
-        $isEditableStatus = in_array($project->status, [\App\Enums\ProjectStatus::Draft, \App\Enums\ProjectStatus::Revised]);
-
-        return $isOwner && $isEditableStatus;
+        return app(\App\Policies\ProjectPolicy::class)
+            ->update($this->user(), $this->route('project'));
     }
 
     public function rules(): array
