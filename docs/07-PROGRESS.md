@@ -99,10 +99,10 @@
 - [ ] **Export Endpoints**
   - [ ] GET /export/projects (Excel)
   - [ ] GET /export/projects/{id}/pdf
-- [ ] **Services**
-  - [ ] ProjectService
-  - [ ] ReviewService
-  - [ ] DashboardService
+- [x] **Services**
+  - [x] ProjectService
+  - [x] ReviewService
+  - [x] DashboardService
   - [ ] ExportService
 - [x] **Policies**
   - [x] ProjectPolicy
