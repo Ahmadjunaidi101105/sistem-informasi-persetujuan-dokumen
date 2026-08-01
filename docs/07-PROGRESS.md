@@ -262,6 +262,8 @@
 - [x] Database schema diagram (ER diagram)
 - [x] Final review & cleanup
 - [x] Deep performance optimization (Partial Indexes, Eager Loading Check)
+- [x] PostgreSQL Full-Text Search (Bonus)
+- [x] Comprehensive Seeder Verification (10.000 Projects, 2.000 Users)
 
 ## ✅ PROJECT COMPLETED — v1.0.0
 

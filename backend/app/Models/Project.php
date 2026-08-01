@@ -108,7 +108,12 @@ class Project extends Model
         if (! $search) {
             return $query;
         }
-        $operator = \DB::getDriverName() === 'pgsql' ? 'ILIKE' : 'LIKE';
+
+        if (\Illuminate\Support\Facades\DB::getDriverName() === 'pgsql') {
+            return $query->whereRaw("search_vector @@ plainto_tsquery('indonesian', ?)", [$search]);
+        }
+
+        $operator = \Illuminate\Support\Facades\DB::getDriverName() === 'pgsql' ? 'ILIKE' : 'LIKE';
         return $query->where(function ($q) use ($search, $operator) {
             $q->where('title', $operator, "%{$search}%")
               ->orWhere('project_code', $operator, "%{$search}%")
