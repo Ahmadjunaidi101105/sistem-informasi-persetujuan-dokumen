@@ -179,8 +179,8 @@
 - [x] **Auth Pages**
   - [x] Login.vue
   - [x] Register.vue
-- [ ] **Pemohon Pages**
-  - [ ] DashboardPage.vue (stats + charts + recent)
+- [x] **Pemohon Pages**
+  - [x] DashboardPage.vue (stats + charts + recent)
   - [ ] ProjectListPage.vue (filter, search, sort, pagination)
   - [ ] ProjectCreatePage.vue (form + file upload)
   - [ ] ProjectEditPage.vue
