@@ -2,27 +2,41 @@
 
 namespace App\Services;
 
+use App\Enums\ProjectStatus;
 use App\Models\Project;
 use App\Models\User;
-use App\Enums\ProjectStatus;
 use App\Notifications\ProjectSubmittedNotification;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProjectService
 {
+    /**
+     * Create a new project.
+     *
+     * @param array $data Project data.
+     * @param User $user The user creating the project.
+     * @return Project
+     */
     public function create(array $data, User $user): Project
     {
         return DB::transaction(function () use ($data, $user) {
             $data['user_id'] = $user->id;
             $data['project_code'] = Project::generateProjectCode();
             $data['status'] = ProjectStatus::Draft;
-            
+
             return Project::create($data);
         });
     }
 
+    /**
+     * Update an existing project.
+     *
+     * @param Project $project The project to update.
+     * @param array $data Updated project data.
+     * @return Project
+     */
     public function update(Project $project, array $data): Project
     {
         return DB::transaction(function () use ($project, $data) {
@@ -31,6 +45,12 @@ class ProjectService
         });
     }
 
+    /**
+     * Delete a project.
+     *
+     * @param Project $project The project to delete.
+     * @return bool
+     */
     public function delete(Project $project): bool
     {
         return DB::transaction(function () use ($project) {
@@ -38,6 +58,13 @@ class ProjectService
         });
     }
 
+    /**
+     * Submit a draft project for review.
+     *
+     * @param Project $project The project to submit.
+     * @return Project
+     * @throws \Exception
+     */
     public function submit(Project $project): Project
     {
         return DB::transaction(function () use ($project) {
@@ -46,7 +73,7 @@ class ProjectService
             }
 
             $oldStatus = $project->status;
-            
+
             $project->status = ProjectStatus::Submitted;
             $project->submitted_at = now();
             $project->save();
@@ -66,6 +93,13 @@ class ProjectService
         });
     }
 
+    /**
+     * List projects with filters and pagination.
+     *
+     * @param array $filters Query filters.
+     * @param User $user The authenticated user.
+     * @return LengthAwarePaginator
+     */
     public function list(array $filters, User $user): LengthAwarePaginator
     {
         $query = Project::with(['user', 'documentCategory', 'currentReviewer'])

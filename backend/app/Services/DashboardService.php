@@ -2,19 +2,25 @@
 
 namespace App\Services;
 
+use App\Enums\ProjectStatus;
 use App\Models\Project;
 use App\Models\User;
-use App\Enums\ProjectStatus;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class DashboardService
 {
+    /**
+     * Get dashboard statistics for pemohon.
+     *
+     * @param User $user The authenticated pemohon user.
+     * @return array
+     */
     public function getPemohonDashboard(User $user): array
     {
         return Cache::tags(['dashboard', 'pemohon', "user_{$user->id}"])->remember("dashboard:pemohon:{$user->id}", 300, function () use ($user) {
             $projects = Project::where('user_id', $user->id);
-            
+
             $totalProjects = (clone $projects)->count();
             $statusDistribution = (clone $projects)
                 ->select('status', DB::raw('count(*) as count'))
@@ -48,13 +54,19 @@ class DashboardService
         });
     }
 
+    /**
+     * Get dashboard statistics for penilai.
+     *
+     * @param User $user The authenticated penilai user.
+     * @return array
+     */
     public function getPenilaiDashboard(User $user): array
     {
         return Cache::tags(['dashboard', 'penilai', "user_{$user->id}"])->remember("dashboard:penilai:{$user->id}", 300, function () use ($user) {
             $projects = Project::where('status', '!=', 'draft');
 
             $totalSubmissions = (clone $projects)->count();
-            
+
             $statusDistribution = (clone $projects)
                 ->select('status', DB::raw('count(*) as count'))
                 ->groupBy('status')
@@ -62,7 +74,7 @@ class DashboardService
 
             $approved = $statusDistribution[ProjectStatus::Approved->value] ?? 0;
             $totalProcessed = (clone $projects)->whereIn('status', ['approved', 'rejected', 'revised'])->count();
-            
+
             $approvalRate = $totalProcessed > 0 ? round(($approved / $totalProcessed) * 100, 2) : 0;
 
             $categoryDistribution = (clone $projects)

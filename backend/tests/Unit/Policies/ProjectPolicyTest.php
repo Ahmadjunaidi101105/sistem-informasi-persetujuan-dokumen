@@ -2,11 +2,6 @@
 
 namespace Tests\Unit\Policies;
 
-use App\Enums\ProjectStatus;
-use App\Models\DocumentCategory;
-use App\Models\Project;
-use App\Models\ProjectDocument;
-use App\Models\User;
 use App\Policies\ProjectPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -14,7 +9,8 @@ use Tests\Traits\TestHelpers;
 
 class ProjectPolicyTest extends TestCase
 {
-    use RefreshDatabase, TestHelpers;
+    use RefreshDatabase;
+    use TestHelpers;
 
     protected ProjectPolicy $policy;
 

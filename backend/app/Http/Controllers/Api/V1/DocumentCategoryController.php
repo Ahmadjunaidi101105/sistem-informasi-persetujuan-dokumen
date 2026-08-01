@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Resources\Api\V1\DocumentCategoryResource;
 use App\Models\DocumentCategory;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class DocumentCategoryController extends BaseController

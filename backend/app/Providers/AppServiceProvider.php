@@ -2,14 +2,13 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-
-use Illuminate\Support\Facades\Gate;
 use App\Models\Project;
-use App\Policies\ProjectPolicy;
 use App\Models\ProjectDocument;
-use App\Policies\ProjectDocumentPolicy;
 use App\Observers\ProjectObserver;
+use App\Policies\ProjectDocumentPolicy;
+use App\Policies\ProjectPolicy;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

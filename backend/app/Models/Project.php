@@ -36,26 +36,52 @@ class Project extends Model
     }
 
     // Relationships
+
+    /**
+     * Get the user that owns the project.
+     *
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Get the document category associated with the project.
+     *
+     * @return BelongsTo
+     */
     public function documentCategory(): BelongsTo
     {
         return $this->belongsTo(DocumentCategory::class);
     }
 
+    /**
+     * Get the reviewer currently assigned to the project.
+     *
+     * @return BelongsTo
+     */
     public function currentReviewer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'current_reviewer_id');
     }
 
+    /**
+     * Get the documents for the project.
+     *
+     * @return HasMany
+     */
     public function documents(): HasMany
     {
         return $this->hasMany(ProjectDocument::class);
     }
 
+    /**
+     * Get the reviews for the project.
+     *
+     * @return HasMany
+     */
     public function reviews(): HasMany
     {
         return $this->hasMany(ProjectReview::class)->orderByDesc('reviewed_at');
@@ -79,7 +105,9 @@ class Project extends Model
 
     public function scopeSearch($query, ?string $search)
     {
-        if (! $search) return $query;
+        if (! $search) {
+            return $query;
+        }
         $operator = \DB::getDriverName() === 'pgsql' ? 'ILIKE' : 'LIKE';
         return $query->where(function ($q) use ($search, $operator) {
             $q->where('title', $operator, "%{$search}%")
@@ -90,8 +118,12 @@ class Project extends Model
 
     public function scopeDateBetween($query, ?string $from, ?string $to)
     {
-        if ($from) $query->where('created_at', '>=', $from);
-        if ($to) $query->where('created_at', '<=', $to . ' 23:59:59');
+        if ($from) {
+            $query->where('created_at', '>=', $from);
+        }
+        if ($to) {
+            $query->where('created_at', '<=', $to . ' 23:59:59');
+        }
         return $query;
     }
 

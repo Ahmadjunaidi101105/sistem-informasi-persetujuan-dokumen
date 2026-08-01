@@ -9,7 +9,8 @@ use Tests\Traits\TestHelpers;
 
 class AuthenticationTest extends TestCase
 {
-    use RefreshDatabase, TestHelpers;
+    use RefreshDatabase;
+    use TestHelpers;
 
     protected function setUp(): void
     {

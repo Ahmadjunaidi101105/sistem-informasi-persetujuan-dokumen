@@ -2,18 +2,17 @@
 
 namespace Tests\Feature;
 
+use App\Enums\ProjectStatus;
 use App\Models\DocumentCategory;
 use App\Models\Project;
-use App\Models\ProjectDocument;
-use App\Models\User;
-use App\Enums\ProjectStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\TestHelpers;
 
 class ProjectCRUDTest extends TestCase
 {
-    use RefreshDatabase, TestHelpers;
+    use RefreshDatabase;
+    use TestHelpers;
 
     protected function setUp(): void
     {

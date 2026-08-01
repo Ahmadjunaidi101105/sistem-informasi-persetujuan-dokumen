@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\Api\V1;
 
+use App\Enums\ProjectPriority;
+use App\Enums\ProjectStatus;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Enums\ProjectStatus;
-use App\Enums\ProjectPriority;
 
 class ProjectResource extends JsonResource
 {

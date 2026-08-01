@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Resources\Api\V1\NotificationResource;
 use Illuminate\Http\Request;
 
 class NotificationController extends BaseController

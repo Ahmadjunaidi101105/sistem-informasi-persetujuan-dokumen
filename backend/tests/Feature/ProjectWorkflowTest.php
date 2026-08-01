@@ -2,16 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\Models\Project;
 use App\Enums\ProjectStatus;
-use App\Models\ProjectDocument;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\TestHelpers;
 
 class ProjectWorkflowTest extends TestCase
 {
-    use RefreshDatabase, TestHelpers;
+    use RefreshDatabase;
+    use TestHelpers;
 
     protected function setUp(): void
     {
@@ -30,7 +29,7 @@ class ProjectWorkflowTest extends TestCase
             ->postJson("/api/v1/projects/{$project->id}/submit");
 
         $response->assertOk();
-        
+
         $project->refresh();
         $this->assertEquals(ProjectStatus::Submitted, $project->status);
         $this->assertNotNull($project->submitted_at);
@@ -69,7 +68,7 @@ class ProjectWorkflowTest extends TestCase
 
         $response->assertOk()
             ->assertJsonPath('success', true);
-            
+
         $project->refresh();
         $this->assertEquals(ProjectStatus::Submitted, $project->status);
         $this->assertNotNull($project->submitted_at);
@@ -234,7 +233,7 @@ class ProjectWorkflowTest extends TestCase
             ->postJson("/api/v1/projects/{$project->id}/submit");
 
         $response->assertOk();
-        
+
         $project->refresh();
         $this->assertEquals(ProjectStatus::Submitted, $project->status);
     }
@@ -284,7 +283,7 @@ class ProjectWorkflowTest extends TestCase
         $this->actingAs($pemohon, 'sanctum')
             ->putJson("/api/v1/projects/{$project->id}", ['title' => 'New Title'])
             ->assertStatus(403);
-            
+
         // Cannot resubmit
         $this->actingAs($pemohon, 'sanctum')
             ->postJson("/api/v1/projects/{$project->id}/submit")
@@ -312,7 +311,7 @@ class ProjectWorkflowTest extends TestCase
         // 3. Approve
         $this->actingAs($penilai, 'sanctum')
             ->postJson("/api/v1/projects/{$project->id}/approve", [
-                'notes' => 'Bagus sekali.'
+                'notes' => 'Bagus sekali.',
             ])
             ->assertOk();
 
@@ -334,7 +333,7 @@ class ProjectWorkflowTest extends TestCase
 
         // 3. Revise
         $this->actingAs($penilai, 'sanctum')->postJson("/api/v1/projects/{$project->id}/revise", [
-            'notes' => 'Perbaiki bagian B'
+            'notes' => 'Perbaiki bagian B',
         ])->assertOk();
 
         // 4. Resubmit
@@ -345,7 +344,7 @@ class ProjectWorkflowTest extends TestCase
 
         // 6. Approve
         $this->actingAs($penilai, 'sanctum')->postJson("/api/v1/projects/{$project->id}/approve", [
-            'notes' => 'Sudah diperbaiki.'
+            'notes' => 'Sudah diperbaiki.',
         ])->assertOk();
 
         $project->refresh();
@@ -367,7 +366,7 @@ class ProjectWorkflowTest extends TestCase
 
         // 3. Reject
         $this->actingAs($penilai, 'sanctum')->postJson("/api/v1/projects/{$project->id}/reject", [
-            'notes' => 'Permohonan tidak sah.'
+            'notes' => 'Permohonan tidak sah.',
         ])->assertOk();
 
         $project->refresh();

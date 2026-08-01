@@ -37,37 +37,37 @@ class ProjectPolicy
 
     public function update(User $user, Project $project): bool
     {
-        return $user->hasRole('pemohon') 
-            && $user->id === $project->user_id 
+        return $user->hasRole('pemohon')
+            && $user->id === $project->user_id
             && in_array($project->status, [ProjectStatus::Draft, ProjectStatus::Revised]);
     }
 
     public function delete(User $user, Project $project): bool
     {
-        return $user->hasRole('pemohon') 
-            && $user->id === $project->user_id 
+        return $user->hasRole('pemohon')
+            && $user->id === $project->user_id
             && $project->status === ProjectStatus::Draft;
     }
 
     public function submit(User $user, Project $project): bool
     {
-        return $user->hasRole('pemohon') 
-            && $user->id === $project->user_id 
+        return $user->hasRole('pemohon')
+            && $user->id === $project->user_id
             && in_array($project->status, [ProjectStatus::Draft, ProjectStatus::Revised])
             && $project->documents()->count() > 0;
     }
 
     public function takeReview(User $user, Project $project): bool
     {
-        return $user->hasRole('penilai') 
-            && $project->status === ProjectStatus::Submitted 
+        return $user->hasRole('penilai')
+            && $project->status === ProjectStatus::Submitted
             && is_null($project->current_reviewer_id);
     }
 
     public function review(User $user, Project $project): bool
     {
-        return $user->hasRole('penilai') 
-            && $project->status === ProjectStatus::InReview 
+        return $user->hasRole('penilai')
+            && $project->status === ProjectStatus::InReview
             && $project->current_reviewer_id === $user->id;
     }
 

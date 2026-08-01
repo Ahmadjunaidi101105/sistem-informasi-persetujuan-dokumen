@@ -6,7 +6,6 @@ use App\Http\Requests\Api\V1\UploadDocumentRequest;
 use App\Http\Resources\Api\V1\ProjectDocumentResource;
 use App\Models\Project;
 use App\Models\ProjectDocument;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;

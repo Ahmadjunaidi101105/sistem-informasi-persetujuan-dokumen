@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Requests\Api\V1\RegisterRequest;
 use App\Http\Requests\Api\V1\LoginRequest;
+use App\Http\Requests\Api\V1\RegisterRequest;
 use App\Http\Resources\Api\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,7 +15,7 @@ class AuthController extends BaseController
     {
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
-        
+
         $user = User::create($data);
         $user->assignRole('pemohon');
 
@@ -50,7 +50,7 @@ class AuthController extends BaseController
     public function user(Request $request)
     {
         $user = $request->user();
-        
+
         return self::success([
             'user' => new UserResource($user),
             'permissions' => $user->getAllPermissions()->pluck('name'),

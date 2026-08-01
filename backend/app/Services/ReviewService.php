@@ -2,17 +2,25 @@
 
 namespace App\Services;
 
+use App\Enums\ProjectStatus;
 use App\Models\Project;
 use App\Models\User;
-use App\Enums\ProjectStatus;
-use App\Notifications\ProjectTakenForReviewNotification;
 use App\Notifications\ProjectApprovedNotification;
-use App\Notifications\ProjectRevisedNotification;
 use App\Notifications\ProjectRejectedNotification;
+use App\Notifications\ProjectRevisedNotification;
+use App\Notifications\ProjectTakenForReviewNotification;
 use Illuminate\Support\Facades\DB;
 
 class ReviewService
 {
+    /**
+     * Take a project for review by a penilai.
+     *
+     * @param Project $project The project to review.
+     * @param User $reviewer The penilai taking the review.
+     * @return Project
+     * @throws \Exception
+     */
     public function takeReview(Project $project, User $reviewer): Project
     {
         return DB::transaction(function () use ($project, $reviewer) {
@@ -21,7 +29,7 @@ class ReviewService
             }
 
             $oldStatus = $project->status;
-            
+
             $project->status = ProjectStatus::InReview;
             $project->current_reviewer_id = $reviewer->id;
             $project->save();
@@ -40,6 +48,15 @@ class ReviewService
         });
     }
 
+    /**
+     * Approve a project.
+     *
+     * @param Project $project The project to approve.
+     * @param User $reviewer The reviewer approving the project.
+     * @param string|null $notes Optional notes for approval.
+     * @return Project
+     * @throws \Exception
+     */
     public function approve(Project $project, User $reviewer, ?string $notes): Project
     {
         return DB::transaction(function () use ($project, $reviewer, $notes) {
@@ -48,7 +65,7 @@ class ReviewService
             }
 
             $oldStatus = $project->status;
-            
+
             $project->status = ProjectStatus::Approved;
             $project->approved_at = now();
             $project->reviewed_at = now();
@@ -68,6 +85,15 @@ class ReviewService
         });
     }
 
+    /**
+     * Request revision for a project.
+     *
+     * @param Project $project The project to revise.
+     * @param User $reviewer The reviewer requesting revision.
+     * @param string $notes Required notes explaining the revision.
+     * @return Project
+     * @throws \Exception
+     */
     public function revise(Project $project, User $reviewer, string $notes): Project
     {
         return DB::transaction(function () use ($project, $reviewer, $notes) {
@@ -76,7 +102,7 @@ class ReviewService
             }
 
             $oldStatus = $project->status;
-            
+
             $project->status = ProjectStatus::Revised;
             $project->revision_count += 1;
             $project->current_reviewer_id = null;
@@ -97,6 +123,15 @@ class ReviewService
         });
     }
 
+    /**
+     * Reject a project.
+     *
+     * @param Project $project The project to reject.
+     * @param User $reviewer The reviewer rejecting the project.
+     * @param string $notes Required notes explaining the rejection.
+     * @return Project
+     * @throws \Exception
+     */
     public function reject(Project $project, User $reviewer, string $notes): Project
     {
         return DB::transaction(function () use ($project, $reviewer, $notes) {
@@ -105,7 +140,7 @@ class ReviewService
             }
 
             $oldStatus = $project->status;
-            
+
             $project->status = ProjectStatus::Rejected;
             $project->rejected_at = now();
             $project->reviewed_at = now();

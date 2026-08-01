@@ -2,11 +2,10 @@
 
 namespace Tests\Traits;
 
-use App\Models\User;
+use App\Models\DocumentCategory;
 use App\Models\Project;
 use App\Models\ProjectDocument;
-use App\Models\DocumentCategory;
-use App\Enums\ProjectStatus;
+use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 
 trait TestHelpers
@@ -31,8 +30,8 @@ trait TestHelpers
     }
 
     protected function createProjectWithDocuments(
-        User $user, 
-        string $status = 'draft', 
+        User $user,
+        string $status = 'draft',
         int $docCount = 1
     ): Project {
         $category = DocumentCategory::factory()->create();

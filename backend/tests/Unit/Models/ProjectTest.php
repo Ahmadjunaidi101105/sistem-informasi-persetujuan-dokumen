@@ -5,14 +5,14 @@ namespace Tests\Unit\Models;
 use App\Enums\ProjectStatus;
 use App\Models\DocumentCategory;
 use App\Models\Project;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\Traits\TestHelpers;
 
 class ProjectTest extends TestCase
 {
-    use RefreshDatabase, TestHelpers;
+    use RefreshDatabase;
+    use TestHelpers;
 
     protected function setUp(): void
     {

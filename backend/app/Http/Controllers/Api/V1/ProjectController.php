@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Requests\Api\V1\StoreProjectRequest;
-use App\Http\Requests\Api\V1\UpdateProjectRequest;
 use App\Http\Requests\Api\V1\ReviewActionRequest;
 use App\Http\Requests\Api\V1\ReviseRejectRequest;
+use App\Http\Requests\Api\V1\StoreProjectRequest;
+use App\Http\Requests\Api\V1\UpdateProjectRequest;
 use App\Http\Resources\Api\V1\ProjectCollection;
 use App\Http\Resources\Api\V1\ProjectResource;
 use App\Models\Project;
@@ -30,12 +30,12 @@ class ProjectController extends BaseController
         Gate::authorize('viewAny', Project::class);
 
         $filters = $request->only([
-            'page', 'per_page', 'status', 'category_id', 'search', 
-            'sort_by', 'sort_order', 'date_from', 'date_to'
+            'page', 'per_page', 'status', 'category_id', 'search',
+            'sort_by', 'sort_order', 'date_from', 'date_to',
         ]);
 
         $paginator = $this->projectService->list($filters, $request->user());
-        
+
         return new ProjectCollection($paginator);
     }
 
@@ -54,11 +54,11 @@ class ProjectController extends BaseController
         Gate::authorize('view', $project);
 
         $project->load([
-            'user', 
-            'documentCategory', 
-            'currentReviewer', 
-            'documents.uploader', 
-            'reviews.reviewer'
+            'user',
+            'documentCategory',
+            'currentReviewer',
+            'documents.uploader',
+            'reviews.reviewer',
         ]);
         $project->loadCount(['documents', 'reviews']);
 
