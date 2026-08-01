@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Resources\Api\V1\NotificationResource;
 use Illuminate\Http\Request;
 
 class NotificationController extends BaseController
@@ -15,6 +16,9 @@ class NotificationController extends BaseController
         }
 
         $notifications = $query->paginate($request->get('per_page', 15));
+        $notifications->setCollection(
+            $notifications->getCollection()->map(fn ($notification) => new NotificationResource($notification))
+        );
 
         return self::paginated($notifications);
     }

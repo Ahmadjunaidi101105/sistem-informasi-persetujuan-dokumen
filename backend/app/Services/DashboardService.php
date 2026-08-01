@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\ProjectStatus;
+use App\Http\Resources\Api\V1\ProjectResource;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
@@ -31,7 +32,8 @@ class DashboardService
                 ->with('documentCategory')
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
-                ->get();
+                ->get()
+                ->map(fn (Project $project) => (new ProjectResource($project))->resolve());
 
             $monthlyTrends = (clone $projects)
                 ->select(
@@ -110,7 +112,8 @@ class DashboardService
                 ->where('status', 'in_review')
                 ->orderBy('updated_at', 'desc')
                 ->limit(5)
-                ->get();
+                ->get()
+                ->map(fn (Project $project) => (new ProjectResource($project))->resolve());
 
             $stats = [
                 'total_submissions' => $totalSubmissions,
