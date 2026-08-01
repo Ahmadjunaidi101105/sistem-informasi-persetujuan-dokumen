@@ -103,7 +103,7 @@
   - [x] ProjectService
   - [x] ReviewService
   - [x] DashboardService
-  - [ ] ExportService
+  - [x] ExportService
 - [x] **Policies**
   - [x] ProjectPolicy
   - [x] ProjectDocumentPolicy
