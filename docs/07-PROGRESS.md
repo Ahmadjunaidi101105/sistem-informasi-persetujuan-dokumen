@@ -132,21 +132,20 @@
 - [ ] API response time check (< 200ms list, < 100ms single)
 - [ ] N+1 query detection & fix
 
-### Phase 5: Frontend Vue (Bobot: 25%)
-- [ ] **Layouts**
-  - [ ] AuthLayout.vue
-  - [ ] DashboardLayout.vue (Sidebar + Navbar)
-- [ ] **Common Components**
-  - [ ] Sidebar.vue
-  - [ ] Navbar.vue (with NotificationBell)
-  - [ ] DataTable.vue
-  - [ ] Pagination.vue
+### Phase 5: Frontend Core & Layouts (Bobot: 15%)
+- [x] Setup Vue 3 + Vite + Tailwind + Pinia + Vue Router
+- [x] Configure API Client (Axios) dengan interceptors (auth token, error handling)
+- [x] Buat Pinia stores:
+  - [x] auth.js
+  - [x] ui.js
+  - [x] notifications.js
+- [x] Setup Utils (formatters, constants)
+- [ ] Buat Layout Components:.vue
   - [ ] StatusBadge.vue
   - [ ] FileUpload.vue (drag & drop)
   - [ ] ConfirmDialog.vue
   - [ ] LoadingSpinner.vue
   - [ ] EmptyState.vue
-  - [ ] Toast.vue
   - [ ] SearchInput.vue
 - [ ] **Stores (Pinia)**
   - [ ] auth store
