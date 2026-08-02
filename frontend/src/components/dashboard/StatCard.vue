@@ -4,7 +4,10 @@ import { computed } from 'vue'
 const props = defineProps({
   title: { type: String, required: true },
   value: { type: [Number, String], required: true },
-  icon: { type: Object, required: true }, // Heroicon component
+  // Heroicons ship as functional components, so the value can be a plain
+  // function as well as an options object. Declaring only Object made Vue
+  // log "Invalid prop: type check failed" for every stat card.
+  icon: { type: [Object, Function], required: true },
   color: { type: String, default: 'brand' },
   trend: { type: Number, default: null }
 })

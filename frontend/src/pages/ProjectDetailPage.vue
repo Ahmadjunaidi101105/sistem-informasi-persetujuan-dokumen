@@ -10,6 +10,7 @@ import ProjectTimeline from '@/components/project/ProjectTimeline.vue'
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
 import ConfirmDialog from '@/components/common/ConfirmDialog.vue'
 import { useUiStore } from '@/stores/ui'
+import { useAuthStore } from '@/stores/auth'
 import { formatDate } from '@/utils/formatters'
 import { 
   ArrowLeftIcon, 
@@ -23,6 +24,11 @@ import { STATUS_MAP, PRIORITY_MAP } from '@/utils/constants'
 const router = useRouter()
 const route = useRoute()
 const uiStore = useUiStore()
+const authStore = useAuthStore()
+
+// This page is shared by both roles, so every path back to a list and every
+// owner-only action has to be resolved from the signed-in user's role.
+const listPath = computed(() => (authStore.isPenilai ? '/penilai/submissions' : '/pemohon/projects'))
 
 const loading = ref(true)
 const submitting = ref(false)
@@ -37,8 +43,8 @@ const loadProject = async () => {
     const res = await projectsApi.get(route.params.id)
     project.value = res.data
   } catch (e) {
-    uiStore.showToast('Gagal memuat data project', 'error')
-    router.push('/pemohon/projects')
+    uiStore.showToast('Gagal memuat data permohonan', 'error')
+    router.push(listPath.value)
   } finally {
     loading.value = false
   }
@@ -48,9 +54,21 @@ onMounted(() => {
   loadProject()
 })
 
-const isEditable = computed(() => {
-  return project.value && ['draft', 'revised'].includes(project.value.status)
-})
+// Editing is an owner-only action: checking the status alone would show Edit
+// and Submit to a penilai viewing someone else's revised permohonan.
+const isOwner = computed(() => project.value && project.value.user_id === authStore.user?.id)
+
+const isEditable = computed(
+  () => isOwner.value && ['draft', 'revised'].includes(project.value.status)
+)
+
+// Penilai may open the assessment form only for the berkas they hold.
+const canReview = computed(
+  () =>
+    authStore.isPenilai &&
+    project.value?.status === 'in_review' &&
+    project.value?.current_reviewer_id === authStore.user?.id
+)
 
 const handleSubmit = async () => {
   if (project.value.documents.length === 0) {
@@ -62,7 +80,7 @@ const handleSubmit = async () => {
   submitting.value = true
   try {
     await projectsApi.submit(project.value.id)
-    uiStore.showToast('Permohonan berhasil disubmit', 'success')
+    uiStore.showToast('Permohonan berhasil diajukan', 'success')
     submitDialog.value = false
     loadProject()
   } catch (e) {
@@ -142,6 +160,11 @@ const tabs = [
             {{ exportingPdf ? 'Menyiapkan...' : 'Export PDF' }}
           </button>
           
+          <router-link v-if="canReview" :to="`/penilai/submissions/${project.id}/review`" class="inline-flex items-center rounded-md bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800">
+            <PencilSquareIcon class="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+            Nilai Permohonan
+          </router-link>
+
           <router-link v-if="isEditable" :to="`/pemohon/projects/${project.id}/edit`" class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
             <PencilSquareIcon class="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
             Edit
