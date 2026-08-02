@@ -13,9 +13,9 @@ enum ProjectPriority: string
     public function label(): string
     {
         return match ($this) {
-            self::Low => 'Low',
+            self::Low => 'Rendah',
             self::Normal => 'Normal',
-            self::High => 'High',
+            self::High => 'Tinggi',
         };
     }
 

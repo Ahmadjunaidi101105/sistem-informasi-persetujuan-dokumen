@@ -120,7 +120,7 @@ class ProjectStatusTest extends TestCase
     public function test_label_returns_correct_string(): void
     {
         $this->assertEquals('Draft', ProjectStatus::Draft->label());
-        $this->assertEquals('In Review', ProjectStatus::InReview->label());
-        $this->assertEquals('Approved', ProjectStatus::Approved->label());
+        $this->assertEquals('Sedang Dinilai', ProjectStatus::InReview->label());
+        $this->assertEquals('Disetujui', ProjectStatus::Approved->label());
     }
 }

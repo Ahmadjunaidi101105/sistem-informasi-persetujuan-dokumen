@@ -40,7 +40,7 @@ class ReviewService
                 'reviewer_id' => $reviewer->id,
                 'status_from' => $oldStatus,
                 'status_to' => ProjectStatus::InReview,
-                'notes' => 'Project taken for review',
+                'notes' => 'Permohonan diambil untuk dinilai.',
                 'reviewed_at' => now(),
             ]);
 
