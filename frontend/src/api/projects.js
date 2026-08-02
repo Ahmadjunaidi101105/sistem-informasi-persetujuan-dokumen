@@ -7,8 +7,6 @@ export const projectsApi = {
   update: (id, data) => apiClient.put(`/projects/${id}`, data),
   delete: (id) => apiClient.delete(`/projects/${id}`),
   submit: (id) => apiClient.post(`/projects/${id}/submit`),
-  takeReview: (id) => apiClient.post(`/projects/${id}/take-review`),
-  approve: (id, data) => apiClient.post(`/projects/${id}/approve`, data),
-  revise: (id, data) => apiClient.post(`/projects/${id}/revise`, data),
-  reject: (id, data) => apiClient.post(`/projects/${id}/reject`, data)
+  // Review actions (take-review, approve, revise, reject) live on reviewsApi,
+  // which is what the assessment pages actually import.
 }

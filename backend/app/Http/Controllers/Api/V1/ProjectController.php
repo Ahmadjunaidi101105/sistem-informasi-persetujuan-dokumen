@@ -93,7 +93,7 @@ class ProjectController extends BaseController
 
         $updatedProject = $this->projectService->submit($project);
 
-        return self::success(new ProjectResource($updatedProject), 'Project berhasil disubmit');
+        return self::success(new ProjectResource($this->withRelations($updatedProject)), 'Permohonan berhasil diajukan');
     }
 
     public function takeReview(Request $request, Project $project)
@@ -102,7 +102,7 @@ class ProjectController extends BaseController
 
         $updatedProject = $this->reviewService->takeReview($project, $request->user());
 
-        return self::success(new ProjectResource($updatedProject), 'Project berhasil diambil untuk review');
+        return self::success(new ProjectResource($this->withRelations($updatedProject)), 'Permohonan berhasil diambil untuk dinilai');
     }
 
     public function approve(ReviewActionRequest $request, Project $project)
@@ -111,7 +111,7 @@ class ProjectController extends BaseController
 
         $updatedProject = $this->reviewService->approve($project, $request->user(), $request->notes);
 
-        return self::success(new ProjectResource($updatedProject), 'Project berhasil disetujui');
+        return self::success(new ProjectResource($this->withRelations($updatedProject)), 'Permohonan berhasil disetujui');
     }
 
     public function revise(ReviseRejectRequest $request, Project $project)
@@ -120,7 +120,7 @@ class ProjectController extends BaseController
 
         $updatedProject = $this->reviewService->revise($project, $request->user(), $request->notes);
 
-        return self::success(new ProjectResource($updatedProject), 'Project dikembalikan untuk revisi');
+        return self::success(new ProjectResource($this->withRelations($updatedProject)), 'Permohonan dikembalikan untuk revisi');
     }
 
     public function reject(ReviseRejectRequest $request, Project $project)
@@ -129,6 +129,18 @@ class ProjectController extends BaseController
 
         $updatedProject = $this->reviewService->reject($project, $request->user(), $request->notes);
 
-        return self::success(new ProjectResource($updatedProject), 'Project ditolak');
+        return self::success(new ProjectResource($this->withRelations($updatedProject)), 'Permohonan ditolak');
+    }
+
+    /**
+     * Workflow actions return the project after a transition. Loading the
+     * relations the client renders keeps those responses the same shape as
+     * GET /projects/{id}; without this, current_reviewer came back missing
+     * right after take-review.
+     */
+    private function withRelations(Project $project): Project
+    {
+        return $project->load(['user', 'documentCategory', 'currentReviewer'])
+            ->loadCount(['documents', 'reviews']);
     }
 }
