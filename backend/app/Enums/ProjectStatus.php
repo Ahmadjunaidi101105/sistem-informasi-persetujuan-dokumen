@@ -17,11 +17,11 @@ enum ProjectStatus: string
     {
         return match ($this) {
             self::Draft => 'Draft',
-            self::Submitted => 'Submitted',
-            self::InReview => 'In Review',
-            self::Approved => 'Approved',
-            self::Revised => 'Revised',
-            self::Rejected => 'Rejected',
+            self::Submitted => 'Diajukan',
+            self::InReview => 'Sedang Dinilai',
+            self::Approved => 'Disetujui',
+            self::Revised => 'Perlu Revisi',
+            self::Rejected => 'Ditolak',
         };
     }
 
