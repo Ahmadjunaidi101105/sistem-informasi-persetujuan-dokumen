@@ -13,6 +13,23 @@ use Illuminate\Support\Facades\Notification;
 class ProjectService
 {
     /**
+     * Columns the list endpoint may be ordered by. Mirrors the sortable
+     * columns offered by the project and submission tables in the UI.
+     */
+    private const SORTABLE_COLUMNS = [
+        'project_code',
+        'title',
+        'status',
+        'priority',
+        'created_at',
+        'updated_at',
+        'submitted_at',
+        'reviewed_at',
+        'approved_at',
+        'revision_count',
+    ];
+
+    /**
      * Create a new project.
      *
      * @param array $data Project data.
@@ -129,10 +146,26 @@ class ProjectService
 
         $query->dateBetween($filters['date_from'] ?? null, $filters['date_to'] ?? null);
 
+        // Sorting is restricted to a known set of columns: the value arrives
+        // straight from a query string, and an unknown column made the endpoint
+        // return a 500. The client sends "sort_order"; "sort_dir" is accepted
+        // as an alias so older callers keep working.
         $sortBy = $filters['sort_by'] ?? 'created_at';
-        $sortDir = $filters['sort_dir'] ?? 'desc';
+        if (!in_array($sortBy, self::SORTABLE_COLUMNS, true)) {
+            $sortBy = 'created_at';
+        }
+
+        $sortDir = strtolower((string) ($filters['sort_order'] ?? $filters['sort_dir'] ?? 'desc'));
+        if (!in_array($sortDir, ['asc', 'desc'], true)) {
+            $sortDir = 'desc';
+        }
+
         $query->orderBy($sortBy, $sortDir);
 
-        return $query->paginate($filters['per_page'] ?? 15);
+        $perPage = (int) ($filters['per_page'] ?? 15);
+        // Guards against a caller asking for the whole table in one page.
+        $perPage = max(1, min($perPage, 100));
+
+        return $query->paginate($perPage);
     }
 }

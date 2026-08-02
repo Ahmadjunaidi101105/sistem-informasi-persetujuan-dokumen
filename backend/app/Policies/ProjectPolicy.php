@@ -14,21 +14,24 @@ class ProjectPolicy
         return true;
     }
 
-    public function view(User $user, Project $project): bool
+    public function view(User $user, Project $project): Response
     {
         if ($user->hasRole('pemohon')) {
-            return $user->id === $project->user_id;
+            return $user->id === $project->user_id
+                ? Response::allow()
+                : Response::deny('Anda hanya dapat melihat permohonan milik sendiri.');
         }
 
         if ($user->hasRole('penilai')) {
-            // Penilai bisa lihat semua kecuali draft milik orang lain
+            // Penilai bisa melihat semua kecuali draft milik orang lain.
             if ($project->status === ProjectStatus::Draft && $project->user_id !== $user->id) {
-                return false;
+                return Response::deny('Permohonan yang masih berstatus Draft belum dapat dilihat penilai.');
             }
-            return true;
+
+            return Response::allow();
         }
 
-        return false;
+        return Response::deny('Anda tidak memiliki akses untuk melihat permohonan ini.');
     }
 
     public function create(User $user): bool
