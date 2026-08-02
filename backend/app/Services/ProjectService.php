@@ -99,7 +99,7 @@ class ProjectService
                 'reviewer_id' => $project->user_id,
                 'status_from' => $oldStatus,
                 'status_to' => ProjectStatus::Submitted,
-                'notes' => 'Project submitted for review',
+                'notes' => 'Permohonan diajukan untuk dinilai.',
                 'reviewed_at' => now(),
             ]);
 
