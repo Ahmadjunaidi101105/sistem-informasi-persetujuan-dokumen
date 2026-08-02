@@ -17,11 +17,19 @@ class ProjectReviewResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            // Exposed flat as well: the review history links straight to the
+            // project, and relying on the nested object breaks when the
+            // relation is not eager loaded.
+            'project_id' => $this->project_id,
             'project' => $this->whenLoaded('project', function () {
                 return [
                     'id' => $this->project->id,
                     'project_code' => $this->project->project_code,
                     'title' => $this->project->title,
+                    // The history table shows who filed the permohonan.
+                    'user' => $this->project->relationLoaded('user')
+                        ? new UserResource($this->project->user)
+                        : null,
                 ];
             }),
             'reviewer' => new UserResource($this->whenLoaded('reviewer')),

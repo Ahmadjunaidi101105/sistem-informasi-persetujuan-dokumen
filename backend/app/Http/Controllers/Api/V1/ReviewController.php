@@ -16,21 +16,31 @@ class ReviewController extends BaseController
             return self::error('Unauthorized', 403);
         }
 
-        $query = ProjectReview::with(['project', 'reviewer']);
+        // project.user is loaded because the history table shows the applicant.
+        $query = ProjectReview::with(['project.user', 'reviewer']);
 
-        if ($request->has('reviewer_id')) {
+        if ($request->filled('reviewer_id')) {
             $query->where('reviewer_id', $request->reviewer_id);
         }
 
-        if ($request->has('status_to')) {
+        if ($request->filled('status_to')) {
             $query->where('status_to', $request->status_to);
         }
 
-        if ($request->has('date_from')) {
+        // The history page offers a search box; without this it did nothing.
+        if ($request->filled('search')) {
+            $search = $request->string('search')->toString();
+            $query->whereHas('project', function ($q) use ($search) {
+                $q->where('project_code', 'ILIKE', "%{$search}%")
+                    ->orWhere('title', 'ILIKE', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('date_from')) {
             $query->where('reviewed_at', '>=', $request->date_from);
         }
 
-        if ($request->has('date_to')) {
+        if ($request->filled('date_to')) {
             $query->where('reviewed_at', '<=', $request->date_to . ' 23:59:59');
         }
 

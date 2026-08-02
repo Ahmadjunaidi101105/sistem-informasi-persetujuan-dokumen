@@ -226,6 +226,58 @@ class ProjectCRUDTest extends TestCase
         $this->assertCount(5, $response->json('data'));
     }
 
+    public function test_project_list_sorting_respects_the_requested_direction(): void
+    {
+        $pemohon = $this->createPemohon();
+        $category = DocumentCategory::factory()->create();
+
+        foreach (['PRJ-2020-00001', 'PRJ-2020-00002', 'PRJ-2020-00003'] as $code) {
+            Project::factory()->draft()->create([
+                'user_id' => $pemohon->id,
+                'document_category_id' => $category->id,
+                'project_code' => $code,
+            ]);
+        }
+
+        $asc = $this->actingAs($pemohon, 'sanctum')
+            ->getJson('/api/v1/projects?sort_by=project_code&sort_order=asc')
+            ->assertOk()
+            ->json('data.0.project_code');
+
+        $desc = $this->actingAs($pemohon, 'sanctum')
+            ->getJson('/api/v1/projects?sort_by=project_code&sort_order=desc')
+            ->assertOk()
+            ->json('data.0.project_code');
+
+        // The service used to read "sort_dir" while the client sends
+        // "sort_order", so both directions returned the same first row.
+        $this->assertSame('PRJ-2020-00001', $asc);
+        $this->assertSame('PRJ-2020-00003', $desc);
+    }
+
+    public function test_project_list_ignores_an_unknown_sort_column(): void
+    {
+        $pemohon = $this->createPemohon();
+        $this->createProjectWithDocuments($pemohon, 'draft', 0);
+
+        // An unrecognised column previously reached the query builder and
+        // produced a 500.
+        $this->actingAs($pemohon, 'sanctum')
+            ->getJson('/api/v1/projects?sort_by=kolom_yang_tidak_ada')
+            ->assertOk();
+    }
+
+    public function test_project_list_caps_per_page(): void
+    {
+        $pemohon = $this->createPemohon();
+        $this->createProjectWithDocuments($pemohon, 'draft', 0);
+
+        $this->actingAs($pemohon, 'sanctum')
+            ->getJson('/api/v1/projects?per_page=99999')
+            ->assertOk()
+            ->assertJsonPath('meta.per_page', 100);
+    }
+
     public function test_project_list_supports_filtering_by_status(): void
     {
         $pemohon = $this->createPemohon();

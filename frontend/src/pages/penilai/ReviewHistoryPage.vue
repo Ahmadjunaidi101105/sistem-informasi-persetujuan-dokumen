@@ -8,10 +8,16 @@ import StatusBadge from '@/components/common/StatusBadge.vue'
 import SearchInput from '@/components/common/SearchInput.vue'
 import Pagination from '@/components/common/Pagination.vue'
 import { useUiStore } from '@/stores/ui'
+import { useAuthStore } from '@/stores/auth'
 import { formatDate } from '@/utils/formatters'
+import { STATUS_MAP } from '@/utils/constants'
 
 const router = useRouter()
 const uiStore = useUiStore()
+const authStore = useAuthStore()
+
+// Keputusan yang bisa dihasilkan sebuah penilaian.
+const DECISIONS = ['approved', 'revised', 'rejected']
 
 const loading = ref(true)
 const reviews = ref([])
@@ -20,7 +26,7 @@ const pagination = ref({ current_page: 1, last_page: 1, per_page: 10, total: 0 }
 const filters = ref({
   search: '',
   status_to: '',
-  sort_by: 'created_at',
+  sort_by: 'reviewed_at',
   sort_order: 'desc'
 })
 
@@ -29,14 +35,20 @@ const columns = [
   { key: 'title', label: 'Judul', sortable: false },
   { key: 'pemohon', label: 'Pemohon', sortable: false },
   { key: 'keputusan', label: 'Keputusan', sortable: true },
-  { key: 'created_at', label: 'Tanggal', sortable: true },
+  { key: 'reviewed_at', label: 'Tanggal', sortable: true },
   { key: 'notes', label: 'Catatan', sortable: false }
 ]
 
 const loadData = async (page = 1) => {
   loading.value = true
   try {
-    const res = await reviewsApi.list({ ...filters.value, page })
+    // Halaman ini menampilkan penilaian milik pengguna yang sedang masuk,
+    // sehingga daftar wajib dibatasi pada reviewer tersebut.
+    const res = await reviewsApi.list({
+      ...filters.value,
+      reviewer_id: authStore.user?.id,
+      page,
+    })
     reviews.value = res.data || []
     pagination.value = res.meta || { current_page: 1, last_page: 1, per_page: 10, total: 0 }
   } catch (e) {
@@ -84,9 +96,7 @@ const navigateToProject = (projectId) => {
         
         <select v-model="filters.status_to" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-brand-700 sm:text-sm sm:leading-6">
           <option value="">Semua Keputusan</option>
-          <option value="approved">Approved</option>
-          <option value="revised">Revised</option>
-          <option value="rejected">Rejected</option>
+          <option v-for="d in DECISIONS" :key="d" :value="d">{{ STATUS_MAP[d].label }}</option>
         </select>
       </div>
     </div>
@@ -113,8 +123,8 @@ const navigateToProject = (projectId) => {
       <template #col-keputusan="{ row }">
         <StatusBadge :status="row.status_to" />
       </template>
-      <template #col-created_at="{ value }">
-        {{ formatDate(value) }}
+      <template #col-reviewed_at="{ value }">
+        {{ value ? formatDate(value) : '-' }}
       </template>
       <template #col-notes="{ value }">
         <div class="max-w-xs truncate text-xs text-gray-500" :title="value">{{ value || '-' }}</div>

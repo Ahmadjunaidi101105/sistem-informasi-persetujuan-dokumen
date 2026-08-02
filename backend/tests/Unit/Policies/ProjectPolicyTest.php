@@ -28,7 +28,7 @@ class ProjectPolicyTest extends TestCase
         $pemohon = $this->createPemohon();
         $project = $this->createProjectWithDocuments($pemohon, 'draft', 0);
 
-        $this->assertTrue($this->policy->view($pemohon, $project));
+        $this->assertTrue($this->policy->view($pemohon, $project)->allowed());
     }
 
     public function test_pemohon_cannot_view_others_project(): void
@@ -37,7 +37,7 @@ class ProjectPolicyTest extends TestCase
         $other = $this->createPemohon(['email' => 'other@test.com']);
         $project = $this->createProjectWithDocuments($other, 'draft', 0);
 
-        $this->assertFalse($this->policy->view($pemohon, $project));
+        $this->assertTrue($this->policy->view($pemohon, $project)->denied());
     }
 
     // --- update ---
@@ -100,7 +100,7 @@ class ProjectPolicyTest extends TestCase
         $penilai = $this->createPenilai();
         $project = $this->createProjectWithDocuments($pemohon, 'submitted', 0);
 
-        $this->assertTrue($this->policy->view($penilai, $project));
+        $this->assertTrue($this->policy->view($penilai, $project)->allowed());
     }
 
     public function test_penilai_cannot_view_draft_projects_of_others(): void
@@ -109,7 +109,7 @@ class ProjectPolicyTest extends TestCase
         $penilai = $this->createPenilai();
         $project = $this->createProjectWithDocuments($pemohon, 'draft', 0);
 
-        $this->assertFalse($this->policy->view($penilai, $project));
+        $this->assertTrue($this->policy->view($penilai, $project)->denied());
     }
 
     // --- penilai review ---
