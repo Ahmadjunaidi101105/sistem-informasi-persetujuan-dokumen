@@ -2,7 +2,8 @@ import axios from 'axios'
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api/v1',
-  withCredentials: true,
+  // No cookies involved: the API is stateless and authenticates via the
+  // Authorization header set in the request interceptor below.
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

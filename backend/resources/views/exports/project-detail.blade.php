@@ -114,9 +114,11 @@
             <tr>
                 <td>{{ $review->reviewed_at->format('d M Y H:i') }}</td>
                 <td>{{ $review->reviewer->name ?? '-' }}</td>
+                {{-- status_from/status_to are cast to ProjectStatus by the model,
+                     so they are already enum instances, not strings. --}}
                 <td>
-                    {{ \App\Enums\ProjectStatus::tryFrom($review->status_from)?->label() }} &rarr; 
-                    <strong>{{ \App\Enums\ProjectStatus::tryFrom($review->status_to)?->label() }}</strong>
+                    {{ $review->status_from?->label() }} &rarr;
+                    <strong>{{ $review->status_to?->label() }}</strong>
                 </td>
                 <td>{{ $review->notes ?: '-' }}</td>
             </tr>

@@ -115,6 +115,26 @@ class ExportTest extends TestCase
         $this->assertSame('application/pdf', $response->headers->get('content-type'));
     }
 
+    public function test_pdf_export_renders_projects_that_have_review_history(): void
+    {
+        $pemohon = $this->createPemohon();
+        $penilai = $this->createPenilai();
+        $project = $this->createProjectWithDocuments($pemohon, 'in_review', 1);
+        $project->update(['current_reviewer_id' => $penilai->id]);
+
+        // Produce a real review row. Without one the template never reaches the
+        // history loop, which is where a status-enum bug previously hid.
+        $this->actingAs($penilai)
+            ->postJson("/api/v1/projects/{$project->id}/approve", ['notes' => 'Dokumen lengkap.'])
+            ->assertOk();
+
+        $this->assertSame(1, $project->fresh()->reviews()->count());
+
+        $this->actingAs($pemohon)
+            ->get("/api/v1/export/projects/{$project->id}/pdf")
+            ->assertOk();
+    }
+
     public function test_pemohon_cannot_export_another_users_project_to_pdf(): void
     {
         $owner = $this->createPemohon();
