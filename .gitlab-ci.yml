@@ -19,14 +19,17 @@ lint-php:
     - php composer.phar install --no-interaction --prefer-dist --optimize-autoloader
     - ./vendor/bin/php-cs-fixer fix --dry-run --diff
 
-lint-frontend:
+# Verifies that no component calls an API method that does not exist. This
+# defect shipped three times (projectsApi.get, exportsApi.export*, the whole
+# reviewsApi action set) because a missing method only throws on click, so the
+# build stayed green while the button did nothing.
+check-frontend-api:
   stage: lint
   image: node:20-alpine
-  allow_failure: true
   script:
     - cd frontend
     - npm ci
-    - npm run lint
+    - npm run check:api
 
 test-backend:
   stage: test
