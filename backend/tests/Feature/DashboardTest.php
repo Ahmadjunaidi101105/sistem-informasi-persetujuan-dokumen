@@ -113,6 +113,58 @@ class DashboardTest extends TestCase
             ]);
     }
 
+    public function test_penilai_recent_reviews_lists_decisions_with_notes(): void
+    {
+        $pemohon = $this->createPemohon();
+        $penilai = $this->createPenilai();
+        $project = $this->createProjectWithDocuments($pemohon, 'in_review', 1);
+        $project->update(['current_reviewer_id' => $penilai->id]);
+
+        $this->actingAs($penilai)
+            ->postJson("/api/v1/projects/{$project->id}/approve", ['notes' => 'Dokumen sudah lengkap.'])
+            ->assertOk();
+
+        // docs/06-UI-DESIGN.md specifies this panel as the reviewer's recent
+        // decisions with Keputusan and Catatan, not the berkas they hold.
+        $response = $this->actingAs($penilai)
+            ->getJson('/api/v1/dashboard/penilai')
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'recent_reviews' => [
+                        ['id', 'project_id', 'status_to', 'status_to_label', 'notes', 'reviewed_at', 'project' => ['project_code', 'title', 'user']],
+                    ],
+                ],
+            ]);
+
+        $response->assertJsonPath('data.recent_reviews.0.status_to', 'approved');
+        $response->assertJsonPath('data.recent_reviews.0.notes', 'Dokumen sudah lengkap.');
+        $response->assertJsonPath('data.recent_reviews.0.project.user.name', $pemohon->name);
+    }
+
+    public function test_penilai_recent_reviews_excludes_take_review_and_other_reviewers(): void
+    {
+        $pemohon = $this->createPemohon();
+        $mine = $this->createPenilai();
+        $other = $this->createPenilai(['email' => 'penilai.lain@test.com']);
+
+        // A take-review records an assignment, not a decision.
+        $taken = $this->createProjectWithDocuments($pemohon, 'submitted', 1);
+        $this->actingAs($mine)->postJson("/api/v1/projects/{$taken->id}/take-review")->assertOk();
+
+        // A decision made by somebody else must not appear here either.
+        $theirs = $this->createProjectWithDocuments($pemohon, 'in_review', 1);
+        $theirs->update(['current_reviewer_id' => $other->id]);
+        $this->actingAs($other)
+            ->postJson("/api/v1/projects/{$theirs->id}/reject", ['notes' => 'Tidak memenuhi syarat.'])
+            ->assertOk();
+
+        $this->actingAs($mine)
+            ->getJson('/api/v1/dashboard/penilai')
+            ->assertOk()
+            ->assertJsonCount(0, 'data.recent_reviews');
+    }
+
     public function test_penilai_dashboard_excludes_draft_projects(): void
     {
         $pemohon = $this->createPemohon();

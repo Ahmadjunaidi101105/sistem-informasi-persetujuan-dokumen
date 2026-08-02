@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Enums\ProjectStatus;
 use App\Http\Resources\Api\V1\ProjectResource;
+use App\Http\Resources\Api\V1\ProjectReviewResource;
 use App\Models\Project;
+use App\Models\ProjectReview;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -107,13 +109,21 @@ class DashboardService
                 ->orderBy('month', 'asc')
                 ->get();
 
-            $recentReviews = Project::with('documentCategory')
-                ->where('current_reviewer_id', $user->id)
-                ->where('status', 'in_review')
-                ->orderBy('updated_at', 'desc')
+            // Per docs/06-UI-DESIGN.md the panel lists the reviewer's most recent
+            // decisions (Keputusan + Catatan), not the berkas they currently hold.
+            // Take-review rows (status_to = in_review) are excluded because they
+            // record an assignment rather than a decision.
+            $recentReviews = ProjectReview::with(['project.user'])
+                ->where('reviewer_id', $user->id)
+                ->whereIn('status_to', [
+                    ProjectStatus::Approved->value,
+                    ProjectStatus::Revised->value,
+                    ProjectStatus::Rejected->value,
+                ])
+                ->orderBy('reviewed_at', 'desc')
                 ->limit(5)
                 ->get()
-                ->map(fn (Project $project) => (new ProjectResource($project))->resolve());
+                ->map(fn (ProjectReview $review) => (new ProjectReviewResource($review))->resolve());
 
             $stats = [
                 'total_submissions' => $totalSubmissions,
