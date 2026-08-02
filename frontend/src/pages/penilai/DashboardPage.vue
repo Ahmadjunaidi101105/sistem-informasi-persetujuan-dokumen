@@ -91,37 +91,50 @@ const donutOptions = {
       <!-- Recent Reviews -->
       <div class="bg-white shadow rounded-lg">
         <div class="px-4 py-5 sm:px-6 flex justify-between items-center border-b border-gray-200">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">Sedang Direview</h3>
-          <router-link to="/penilai/submissions" class="text-sm font-medium text-brand-700 hover:text-brand-500">
-            Lihat Semua Pengajuan &rarr;
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Penilaian Terakhir</h3>
+          <router-link to="/penilai/history" class="text-sm font-medium text-brand-700 hover:text-brand-500">
+            Lihat Semua Riwayat &rarr;
           </router-link>
         </div>
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permohonan</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pemohon</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Keputusan</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Catatan</th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="review in dashboardData.recent_reviews" :key="review.id" class="hover:bg-gray-50 cursor-pointer" @click="router.push(`/penilai/submissions/${review.id}/review`)">
+              <tr
+                v-for="review in dashboardData.recent_reviews"
+                :key="review.id"
+                class="hover:bg-gray-50 cursor-pointer"
+                @click="router.push(`/penilai/submissions/${review.project_id}`)"
+              >
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm font-medium text-gray-900">{{ review.project_code }}</div>
-                  <div class="text-xs text-gray-500 truncate max-w-[200px]">{{ review.title }}</div>
+                  <div class="text-sm font-medium text-gray-900">{{ review.project?.project_code }}</div>
+                  <div class="text-xs text-gray-500 truncate max-w-[200px]">{{ review.project?.title }}</div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ review.user?.name }}
+                  {{ review.project?.user?.name || '-' }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                  <StatusBadge :status="review.status_to" />
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <StatusBadge :status="review.status" />
+                  {{ review.reviewed_at ? formatDate(review.reviewed_at) : '-' }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatDate(review.created_at) }}</td>
+                <td class="px-6 py-4 text-sm text-gray-500">
+                  <div class="max-w-xs truncate" :title="review.notes">{{ review.notes || '-' }}</div>
+                </td>
               </tr>
               <tr v-if="dashboardData.recent_reviews.length === 0">
-                <td colspan="4" class="px-6 py-10 text-center text-gray-500">Tidak ada project yang sedang Anda review</td>
+                <td colspan="5" class="px-6 py-10 text-center text-gray-500">
+                  Anda belum pernah memberikan keputusan penilaian.
+                </td>
               </tr>
             </tbody>
           </table>
