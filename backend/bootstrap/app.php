@@ -12,7 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->statefulApi();
+        // Deliberately NOT calling statefulApi(): authentication is bearer-token
+        // based (AuthController issues createToken()->plainTextToken and the SPA
+        // sends it via the Authorization header). statefulApi() would make every
+        // request whose Origin matches SANCTUM_STATEFUL_DOMAINS session-based and
+        // subject to CSRF, which returned 419 for browser requests while curl —
+        // sending no Origin header — still succeeded.
+        //
         // General API rate limit (60 req/min, see the "api" limiter in
         // AppServiceProvider). Auth and export routes tighten this to 5/min
         // individually in routes/api.php.

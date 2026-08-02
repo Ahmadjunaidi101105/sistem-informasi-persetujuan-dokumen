@@ -50,7 +50,7 @@ const handleRegister = async () => {
       <form class="space-y-6" @submit.prevent="handleRegister">
         
         <div>
-          <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Nama Lengkap</label>
+          <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Nama Lengkap <span class="text-red-500">*</span></label>
           <div class="mt-2">
             <input id="name" name="name" type="text" required v-model="form.name" :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6', errors.name ? 'ring-red-300 text-red-900 focus:ring-red-500' : 'text-gray-900 ring-gray-300 focus:ring-brand-700']" />
             <p v-if="errors.name" class="mt-2 text-sm text-red-600">{{ errors.name[0] }}</p>
@@ -58,7 +58,7 @@ const handleRegister = async () => {
         </div>
 
         <div>
-          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email <span class="text-red-500">*</span></label>
           <div class="mt-2">
             <input id="email" name="email" type="email" autocomplete="email" required v-model="form.email" :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6', errors.email ? 'ring-red-300 text-red-900 focus:ring-red-500' : 'text-gray-900 ring-gray-300 focus:ring-brand-700']" />
             <p v-if="errors.email" class="mt-2 text-sm text-red-600">{{ errors.email[0] }}</p>
@@ -66,31 +66,31 @@ const handleRegister = async () => {
         </div>
 
         <div>
-          <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">No. Telepon</label>
+          <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">No. Telepon <span class="text-gray-400 font-normal">(opsional)</span></label>
           <div class="mt-2">
-            <input id="phone" name="phone" type="text" required v-model="form.phone" :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6', errors.phone ? 'ring-red-300 text-red-900 focus:ring-red-500' : 'text-gray-900 ring-gray-300 focus:ring-brand-700']" />
+            <input id="phone" name="phone" type="text" v-model="form.phone" :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6', errors.phone ? 'ring-red-300 text-red-900 focus:ring-red-500' : 'text-gray-900 ring-gray-300 focus:ring-brand-700']" />
             <p v-if="errors.phone" class="mt-2 text-sm text-red-600">{{ errors.phone[0] }}</p>
           </div>
         </div>
 
         <div>
-          <label for="company_name" class="block text-sm font-medium leading-6 text-gray-900">Nama Perusahaan (Opsional)</label>
+          <label for="company_name" class="block text-sm font-medium leading-6 text-gray-900">Nama Perusahaan <span class="text-red-500">*</span></label>
           <div class="mt-2">
-            <input id="company_name" name="company_name" type="text" v-model="form.company_name" :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6', errors.company_name ? 'ring-red-300 text-red-900 focus:ring-red-500' : 'text-gray-900 ring-gray-300 focus:ring-brand-700']" />
+            <input id="company_name" name="company_name" type="text" required v-model="form.company_name" :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6', errors.company_name ? 'ring-red-300 text-red-900 focus:ring-red-500' : 'text-gray-900 ring-gray-300 focus:ring-brand-700']" />
             <p v-if="errors.company_name" class="mt-2 text-sm text-red-600">{{ errors.company_name[0] }}</p>
           </div>
         </div>
         
         <div>
-          <label for="company_address" class="block text-sm font-medium leading-6 text-gray-900">Alamat Perusahaan (Opsional)</label>
+          <label for="company_address" class="block text-sm font-medium leading-6 text-gray-900">Alamat Perusahaan <span class="text-red-500">*</span></label>
           <div class="mt-2">
-            <textarea id="company_address" name="company_address" rows="3" v-model="form.company_address" :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6', errors.company_address ? 'ring-red-300 text-red-900 focus:ring-red-500' : 'text-gray-900 ring-gray-300 focus:ring-brand-700']"></textarea>
+            <textarea id="company_address" name="company_address" rows="3" required v-model="form.company_address" :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6', errors.company_address ? 'ring-red-300 text-red-900 focus:ring-red-500' : 'text-gray-900 ring-gray-300 focus:ring-brand-700']"></textarea>
             <p v-if="errors.company_address" class="mt-2 text-sm text-red-600">{{ errors.company_address[0] }}</p>
           </div>
         </div>
 
         <div>
-          <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+          <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password <span class="text-red-500">*</span></label>
           <div class="mt-2">
             <input id="password" name="password" type="password" required v-model="form.password" :class="['block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6', errors.password ? 'ring-red-300 text-red-900 focus:ring-red-500' : 'text-gray-900 ring-gray-300 focus:ring-brand-700']" />
             <p v-if="errors.password" class="mt-2 text-sm text-red-600">{{ errors.password[0] }}</p>
@@ -98,7 +98,7 @@ const handleRegister = async () => {
         </div>
         
         <div>
-          <label for="password_confirmation" class="block text-sm font-medium leading-6 text-gray-900">Konfirmasi Password</label>
+          <label for="password_confirmation" class="block text-sm font-medium leading-6 text-gray-900">Konfirmasi Password <span class="text-red-500">*</span></label>
           <div class="mt-2">
             <input id="password_confirmation" name="password_confirmation" type="password" required v-model="form.password_confirmation" class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-700 sm:text-sm sm:leading-6" />
           </div>

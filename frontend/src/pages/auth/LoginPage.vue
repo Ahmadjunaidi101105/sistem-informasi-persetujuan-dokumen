@@ -50,7 +50,7 @@ const handleLogin = async () => {
     <div class="px-4 py-8 sm:px-10">
       <form class="space-y-6" @submit.prevent="handleLogin">
         <div>
-          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
           <div class="mt-2">
             <input 
               id="email" 
