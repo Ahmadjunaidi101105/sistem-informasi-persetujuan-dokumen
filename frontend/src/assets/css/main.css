@@ -54,6 +54,20 @@
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-brand-600;
   }
+
+  /*
+  | Every form field across the app was built with "border-0 py-1.5 ..." and
+  | no horizontal padding, so Tailwind's Preflight reset (padding: 0) left
+  | text sitting flush against the field edge. Utility classes still win over
+  | this (Tailwind's cascade layers put @layer utilities after @layer base),
+  | so components with their own horizontal padding utilities, like
+  | SearchInput's icon padding, are unaffected.
+  */
+  input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='file']):not([type='color']),
+  select,
+  textarea {
+    padding-inline: 0.75rem;
+  }
 }
 
 @layer utilities {
