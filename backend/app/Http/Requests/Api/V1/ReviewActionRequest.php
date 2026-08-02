@@ -8,9 +8,14 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ReviewActionRequest extends FormRequest
 {
-    public function authorize(): bool
+    /**
+     * Delegated to ProjectPolicy::review() so the caller is told *why* the
+     * action was refused instead of receiving a generic 403.
+     */
+    public function authorize(): \Illuminate\Auth\Access\Response
     {
-        return $this->user() && $this->user()->hasRole('penilai');
+        return app(\App\Policies\ProjectPolicy::class)
+            ->review($this->user(), $this->route('project'));
     }
 
     public function rules(): array

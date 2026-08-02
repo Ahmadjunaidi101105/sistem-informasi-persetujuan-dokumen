@@ -19,6 +19,10 @@ class AuthController extends BaseController
         $user = User::create($data);
         $user->assignRole('pemohon');
 
+        // is_active is filled by a database default, so reload before returning
+        // or the response reports false for an account that is actually active.
+        $user->refresh()->load('roles');
+
         return self::created(new UserResource($user), 'Registrasi berhasil');
     }
 
