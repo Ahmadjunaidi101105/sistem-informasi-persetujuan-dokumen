@@ -263,7 +263,15 @@ tampilan.
 - Grafik donat **Tingkat Persetujuan**
 - Grafik garis **Tren Keputusan Bulanan** (terpisah per keputusan)
 - Grafik batang **Permohonan per Kategori**
+- Tabel **Penilaian Terakhir** berisi keputusan yang pernah Anda berikan
 - Ikon lonceng di kanan atas menampilkan jumlah notifikasi belum dibaca
+
+> **Catatan penting saat demo.** Permohonan yang baru diajukan **tidak** muncul
+> di tabel "Penilaian Terakhir" — tabel itu memang berisi keputusan yang sudah
+> Anda buat. Permohonan baru terhitung pada kartu **Menunggu Dinilai** dan
+> tampil di menu **Daftar Pengajuan** dengan status *Diajukan*. Ini sesuai
+> aturan BR-004: penilai *mengambil* berkas, bukan ditugaskan, sehingga satu
+> berkas tidak dinilai dua orang sekaligus.
 
 ---
 
